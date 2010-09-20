@@ -1,14 +1,247 @@
 \documentclass[a4paper,8pt]{article}
-%\usepackage[utf8]{inputenc}
+\usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}      
 \usepackage[swedish]{babel}
-%\usepackage{inconsolata}
+\usepackage{inconsolata}
 
 \begin{document}
 
-\title{Projektspecifikation}
-\author{Caj Larsson\\Erik Lindholm}\maketitle
+\begin{titlepage}
+
+TDDC69 - Objektorienterad programmering och Java
+\vspace {4cm}
+
+\begin{center}
+
+ 
+\Huge{\bfseries Projektspecifikation}
+\vspace {1cm}
+
+\LARGE{\bfseries ``Cave Explorer''}
+\vspace {1cm}
+
+\LARGE{\bfseries 2010-09-20}
+\vspace {1cm}
+
+\large{ \bfseries Projektmedlemmar:}
+
+\large{ Caj Larsson cajla304@student.liu.se}
+
+\large{ Erik Lindholm erili322@student.liu.se}
+\vspace {1cm}
+
+\large{ \bfseries Handledare:}
+
+\large{ Handledare handledare@ida.liu.se}
+\end{center}
+\end{titlepage}
+
+%innehåållsförteckning
+\tableofcontents
+\pagebreak
+
+\section{Inledning}
+%Den här delen skriver ni i samband med första inlämningen
+%Ge en kort inledning till projektet (vad är det för spel, vad går det ut på, …).
+%Det ska vara kort och koncist men ge en tillräcklig förklaring till vad spelet 
+%går ut på.
+Cave explorer ska bli ett spel där två lag kämpar mot varandra under jorden över
+kontrollen över kartan. Det ska vara ett 2D 'RTS' där abstraherad tid ska vara
+den ända valutan, all tid du inte spenderar ackumuleras.
+
+\subsection{Spelbeskrivning}
+%Ge en lite mer genomgående förklaring av spelet och hur det spelas. Till 
+%exempel: "Brickor trillar ned från över delen av skärmen. Dessa kan roteras och
+%målet är att stapla dessa i nedre delen av skärmen och bilda rader.". Eventuella
+% regler för spelet är även bra att förklara här (för schack till exempel).
+Vardera spelare börjar med varsin underjodsbas där de kan skapa soldater som
+antingen kan gräva eller strida med en varierad arsenal. För att vinna måste
+dina soldater förstöra motståndarens bas. För att nå motsåndarens bas så
+måste tunnlar grävas mellan baserna så att dina soldater kan nå fram.
+Tunnlar kollapsar efter en viss tid om de inte underhålls. Soldater kan bara
+skjuta i fyra riktningar och kan bara styras med köade ordrar, vi har även
+planer på att införa order-macron.
+
+\subsection{Utvecklingsmetodik}
+%Hur tänker ni jobba? Ska ni dela upp hur ni skriver koden? Hur kommunicerar ni?
+%Hur delar ni koden mellan varandra och ser till att den är tillgänglig, även om 
+%en projektmedlem är sjuk eller borta (ett vanligt problem som uppstår, därför är
+%det viktigt att ni planerar inför detta tidigt)? Tänker ni versionshantera koden
+%(till exempel med subversion eller git)? Jobba kvällar? Helger? Hur lång tid 
+%tror ni projektet kommer kräva? Vad har ni för betygsambitioner?
+Vi kommer att dela upp koden i olika delprojekt ala grafikmotor spelmotor och
+grafik, sen kommer vi att dela upp vem som har huvudansvar för varje delprojekt.
+Antagligen kommer vi byta kod och uppgifter med varandra under utvecklandet. Vi
+kommer antagligen inte ha några problem med frånvaro osv, vi brukar lösa det 
+utan problem. Vi kör git på hela projektet, inklusive denna dokumentation. Det
+kommer antagligen ta mer tid än utsatt i kursen innan vi har kommit så långt 
+att vi är nöjda. Vi har femma som mål.
 
 
-asdasd
+%\section{Användarmanual}
+%När ni har implementerat ett spel så krävs det också en manual som förklarar hur
+%spelet fungerar. Ni ska beskriva spelets olika delar och hur interaktionen 
+%fungerar (om mus används, tangentbord, vilka knappar som är aktuella, etc). 
+%Inkludera skärmdumpar, som visar hur spelet ser ut. Det ska åtminstone finnas en
+%icke-modifierad bild av spelet. Ett tips i övrigt kan vara att ha en extra bild,
+%ringa in och markera intressanta områden med siffror/färger och beskriva dessa i
+%en prydlig tabell.
+
+\section{Kravlista}
+%Lista de krav som ni har på spelet. Dessa ska vara mätbara, det vill säga att 
+%man ska kunna svara "ja" eller "nej" på om kravet är uppfyllt eller ej. Ett 
+%exempel på ett bra krav är: "Spelet skall styras med tangentbordet", eftersom
+%det är väldigt lätt att svara ja eller nej på det. Ett dåligt krav är: "Spelet
+%skall vara snyggt", för om spelet är snyggt eller ej är en högst subjektiv 
+%bedömning. Varje krav ska ha ett unikt nummer, som börjar räknas från 1 och
+%uppåt. Dela också upp kraven i "skall"- och "bör"-krav (genom att ge kraven
+%högre eller lägre prioritering). Skall-kraven är de som ni måste implementera
+%för att projektet skall anses vara lyckat (ni får förmodligen inte underkänt om
+%inte uppfyller dessa; ni jobbar mest principiellt här). Bör-kraven är sådana ni
+%implementerar om ni får tid över. Ett smidigt sätt att organisera alla krav är
+%genom att bygga ut tabellen nedan.
+%
+%\begin{tabular}{|l |l |l|}
+%  \hline
+%  \# & Beskrivning & Prioritet \\ 
+%  \hline
+%  1 & Spelaren skall styra med musen & 1 \\
+%  \hline
+%\end{tabular}
+%
+%Även om det finns många triviala ”krav” som kan läggas till (”spelet skall 
+%styras med musen”, ...), försök hitta bra krav som återspeglar de 
+%karaktäristiska dragen som finns hos ert spel. Eftersom ni under kapitlet 
+%”Arbetsmetodik” har redogjort för önskat betyg, så kan ni genom kraven skapa en 
+%övertygelse om att det är just det betyget ni ska ha. Vid osäkerhet kan ni fråga
+%er handledare om råd och fist
+
+Våra krav:
+
+\vspace{0.2cm}
+
+\begin{tabular}{|l |l |l|}
+  \hline
+ \bfseries \# &\bfseries Beskrivning &\bfseries Prioritet \\ 
+  \hline
+  1 & Simpel spelvärld med grafik & 1 \\  
+  \hline
+  2 & Kollisionshantering och enheter & 1 \\
+  \hline
+  3 & Spelvärlds modifikation & 1 \\
+  \hline
+  4 & Skapning och avskapning av enheter & 1 \\
+  \hline
+  5 & Ordergivning(en order och eval) & 1 \\
+  \hline
+  6 & Scorescreen & 1 \\
+  \hline
+  7 & Modulärt spelar/adminfönster & 1 \\
+  \hline
+  8 & Kösys för ordrar & 2 \\
+  \hline
+  9 & Simpel AI & 2 \\
+  \hline
+  10 & Varierad Arsenal & 2 \\
+  \hline
+  11 & 'Byggnader' & 2 \\
+  \hline
+  12 & Raserbara gångar & 2 \\
+  \hline
+  13 & Underhåll och degeneration av gångar & 2 \\
+  \hline
+  14 & Meny & 3 \\
+  \hline
+  15 & Inställbar kartstorlek & 3 \\
+  \hline
+  16 & Nätverk & 3 \\
+  \hline
+  17 & Inspelning/reprissystem & 4 \\
+  \hline
+  18 & Flera plan & 5 \\
+  \hline
+  19 & FeatureSpam & 6 \\
+
+  \hline
+\end{tabular}
+
+%\section{Implementation}
+%Det här kapitlet använder ni för att beskriva hur spelet är strukturerat och
+%implementerat. Dels ska ni förklara de klasser ni använder, men även hur dessa 
+%används i er kod. Algoritmer och övergripande design passar också in i det här
+%kapitlet (bilder, flödesdiagram, osv. är rekommenderat men ej något krav). Den 
+%här delen kan ni strukturera upp enligt egna preferenser. Skapa gärna egna 
+%delkapitel för enskilda delar, om det underlättar.
+
+\section{Klasser}
+Vi behöver ett spelvärlds objekt som innehåller flera rutobjekt som kan vara
+både jordtäckta eller utgrävda och kan ifall de är utgrävda ha andra objekt
+som enheter o dyl på sig. Enheter kan ha olika objekt som är vapen tex spade 
+men bara ett i taget. Det behövs en spelserver som har koll på tiden och
+skickar tick till alla tidsberoende objekt.
+
+Spelarklassen har ett basstationsobjekt och enhetsobjekt, den ska vara 
+abstrakt och både AI:n och spelarensgränsnitt skall uttnyttja den.
+
+Enheter och allt annat som skall kunna klickas på måste implementera ett 
+\texttt{interface} som anger vad den skall göra med de paneler som skall 
+ändras när den är markerad.
+
+Speletsflöden kommer kontrolleras av spelmotorn som uppdaterar alla 
+spelareobjekt som i sin tur uppdaterar sitt fönster om det är applicerbart.
+Spelarklasserna skickar förfrågningar om ordrar till spelmotorn som antingen
+avvisar dem eller godkänner och köar dem.
+
+Spelarfönstret kommer ha 3 olika signifikanta ytor, en panel för spelarens och
+dess enheters status, tunn och ovanför allt annat. En sido panel med t ex 
+enhets information. Samt en stor spelyta där spelet ritas ut.
+
+
+%Den här delen skriver ni i samband med första inlämningen
+%
+%Fundera ut vilka klasser ni behöver för att implementera spelet. Beskriv 
+%ytterligare hur klasserna används i er implemenation (väldigt intressant för
+%klasser som hör till något designmönter). Använd klassdiagram (UML) för att 
+%beskriva klasserna och dess relationer till varandra. Det kan vara bra att 
+%försöka dela upp klassdiagrammet i flera mindre delar. Det finns annars en 
+%överhängande risk att diagrammen växer i storlek snabbt och blir svåra att 
+%överblicka, vilket gör att klassdiagrammen inte gör så mycket nytta. Detta 
+%kapitel behöver inte vara komplett nu, det viktigaste är att ni börjat tänka på
+%hur ni ska göra. Om ni jobbar mycket med detta kapitel så är det i stort sett 
+%bara att sätta igång och koda sen, vilket gör att ni sparar mycket tid. Denna 
+%delen fyller ni på ytterligare när ni lämnar in dokumentet igen i slutet av kursen.
+
+%\subsection{ Beskrivning av implementationen}
+%Den här delen skriver ni inför slutinlämningen
+%
+%Här ska ni förklara hur era datastrukturer och algoritmer fungerar. Det bästa 
+%sättet att tänka är lite grann ur någon annan grupps perspektiv. Vad skulle 
+%någon annan behöva veta för att förstå en viss del av spelet eller dess 
+%implementation? Ni får själva försöka hitta alla dessa delar genom att ställa er
+%själva frågor och studera er kod. Till exempel: "Vad behöver jag veta för att 
+%förstå hur rotationsproceduren i mitt Tetris fungerar?".
+%
+%Tanken är inte att ni ska skriva och svara på frågor. Detta kan ni snarare se 
+%som hjälp för att skriva denna delen.
+%
+%\section{Utvärdering och erfarenheter}
+%Den här delen skriver ni inför slutinlämningen
+%
+%Detta avsnittet är en väldigt viktig del av projektspecifikationen. Här ska ni 
+%tänka tillbaka och utvärdera projektet (något som alltid ska göra efter ett 
+%projekt). Som en hjälp på vägen kan ni utgå från följande frågeställningar:
+%\begin{itemize}
+%\item Vad gick bra? Mindre bra?
+%\item Lade ni ned för mycket/lite tid? 
+%\item Var arbetsfördelningen jämn? Om inte: Vad hade ni kunnat göra för att 
+%förbättra den?
+%\item Har ni haft någon nytta av specifikationen? Vad har varit mest användbart
+%med den? Minst?
+%\item Har arbetet fungerat som ni tänkt er? Har ni följt "arbetsmetodiken"? 
+%Något som skiljer sig? Till det bättre? Till det sämre?
+%\item Vad har varit mest problematiskt, om man utesluter den 
+%programmeringstekniska delen? Alltså saker runt omkring, som att hitta ledig tid
+%eller plats att vara på.
+%\item Vad har ni lärt er så här långt som kan vara bra att ta med till kommande kurser/projekt?
+%\end{itemize}
 \end{document}
