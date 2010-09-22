@@ -6,6 +6,6 @@ public class CaveExplorer
 {
 	public static void main(String args[])
 	{
-		
+	    GameEngine motor = new GameEngine();
 	}
 }
