@@ -1,8 +1,8 @@
-package cavelorer
+package cavelorer;
 import java.util.*;
     
 
-public abstract class Physical 
+public abstract class Physical implements Tickable
 {
 	private boolean big;
 	private boolean blind;
@@ -54,5 +54,27 @@ public abstract class Physical
 	{
 		return blind;
 	}
+    
+	public void preformTick()
+
+	{
+		healthTick();
+		nextAction();
+	}
+	
+	public void changeHealth(int healthDelta)
+	{
+		health += healthDelta;
+		if ( health < 0)
+		{
+			alive = false;
+			maxHealth = -1;
+		}
+	}
+	
+	public abstract void nextAction(); // ska ge nästa action objekt
+
+	public abstract void onDeath();
+	 
 
 }
