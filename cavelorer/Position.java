@@ -1,5 +1,7 @@
 package cavelorer;
 
+import java.util.*;
+
 public class Position
 {
 	public	int x,y;
@@ -24,5 +26,18 @@ public class Position
 	{
 		return new Position(x + position.x,
 				    y + position.y);
+	}
+	
+	public Position subtract(Position position)
+	{
+		return new Position(x - position.x,
+				    y - position.y);
+	}
+	
+	public double distance(Position position)
+	{
+		Position temp = subtract(position);
+		return Math.sqrt(temp.x * temp.x +
+				 temp.y * temp.y);
 	}
 }

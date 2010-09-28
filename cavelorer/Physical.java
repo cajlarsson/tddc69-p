@@ -72,7 +72,7 @@ public abstract class Physical implements Tickable
 		}
 	}
 	
-	public abstract void nextAction(); // ska ge nästa action objekt
+	public abstract GameAction nextAction(); // ska ge nästa action objekt
 
 	public abstract void onDeath();
 	 

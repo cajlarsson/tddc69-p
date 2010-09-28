@@ -123,7 +123,7 @@ public class GameEngine implements ActionListener
 		return map[position.x][position.y].hasBig();
 	}
 
-	public boolean empty(Postion postion)
+	public boolean mapEmpty(Position postion)
 	{
 		return map[postion.x][postion.y].empty();
 	}

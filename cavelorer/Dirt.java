@@ -105,7 +105,7 @@ public class Dirt implements Tickable
 	
 	public boolean empty()
 	{
-		return physicals.empty();
+		return physicals.isEmpty();
 	}
 
  }

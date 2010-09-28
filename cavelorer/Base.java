@@ -7,9 +7,9 @@ public class Base extends Physical
 		super(true, false, 1000, 100);
 	}
 	
-	public void nextAction() //FIXME IMPLEMENT
+	public GameAction nextAction() //FIXME IMPLEMENT
 	{
-		int x;
+	    return new GameAction(null, null, null, null );
 
 	}
 	

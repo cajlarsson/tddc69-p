@@ -8,7 +8,7 @@ public class Contestant
 //	private int base; //FIXME;
 	private ArrayList<Position> knownSquares; //FIXME;
 	private ArrayList<Position> dugSquares;
-//	private ArrayList<Integer> enemas;
+	private ArrayList<Position> seenEnemies;
 	private Monies money;
 	
 //	private int mapWidth;
@@ -48,9 +48,12 @@ public class Contestant
 		Base base = new Base();
 		
 		game.addPhysical(position, base);
-		game.addPhysical(new Position(position.x +1, position.y), base);
-		game.addPhysical(new Position(position.x , position.y +1), base);
-		game.addPhysical(new Position(position.x+1, position.y+1), base);
+		game.addPhysical(new Position(position.x + 1, position.y)
+				 , base);
+		game.addPhysical(new Position(position.x, position.y + 1)
+				 , base);
+		game.addPhysical(new Position(position.x + 1, position.y + 1)
+				 , base);
 		
 		physicals.add(base);
 		game.addTimeDependent(base);
@@ -92,7 +95,7 @@ public class Contestant
 
 		case MOVE:
 			if (game.isDug(action.position())
-			    && game.hasBig(action.position()))
+			    && game.gotBig(action.position()))
 			{
 				game.removePhysical(
 					action.position(),
@@ -113,14 +116,29 @@ public class Contestant
 			break;
 
 		case PICKUP:  
-			if (!game.empty(action.position())
-			    && !game.hasBig(action.position())
-			    && game.isDug(action.position()))
+			if (!game.mapEmpty(action.position().step(
+						action.direction()))
+			    && !game.gotBig(action.position().step(
+						action.direction()))
+			    && game.isDug(action.position().step(
+						action.direction())))
 			{
-				//TODO fyll ut
+				
+//TODO fyll ut
+			       
+				
+				
 			}
 			break;
+		case WAIT:
+		    break;
 			
 		}
+	}
+	
+	public ArrayList<Position> getEnemies()
+	{
+
+		return seenEnemies;
 	}
 }

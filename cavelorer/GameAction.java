@@ -4,10 +4,10 @@ public class GameAction
 {
 	private Position position;
 	private Direction direction;
-	private ActionClass actionClass;
+	private ActionClasses actionClass;
 	private Physical physical;
 	public GameAction(Position position,
-			  ActionClass actionClass, 
+			  ActionClasses actionClass, 
 			  Direction direction,
 			  Physical physical)
 	{
@@ -17,19 +17,20 @@ public class GameAction
 		this.physical = physical;
 	}
 	
-       	public GameAction(Position position, ActionClass actionClass)
+       	public GameAction(Position position, ActionClasses actionClass)
 	{
 	 	this(position, actionClass, Direction.UP, null);		
 	}
 
 	public GameAction(Position position,
-			  ActionClass actionClass,
+			  ActionClasses actionClass,
 			  Physical physical)
 	{
 	 	this(position, actionClass, Direction.UP, physical);		
 	}
 
-	public ActionClass actionClass()
+
+	public ActionClasses actionClass()
 	{
 		return actionClass;
 	}
