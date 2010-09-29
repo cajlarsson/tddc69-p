@@ -47,8 +47,7 @@ public class Soldier extends Physical
 			case BUYWEAPON:
 				break;
 			case EXPLODE:
-				
-				// Dont do anything
+				// should exist?
 				break;
 			case WAIT:
 				// nothing should be done

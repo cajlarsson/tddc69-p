@@ -7,10 +7,9 @@ public class Base extends Physical
 		super(true, false, 1000, 100);
 	}
 	
-	public GameAction nextAction() //FIXME IMPLEMENT
+	public GameAction nextAction()
 	{
-	    return new GameAction(null, null, null, null );
-
+	    return new GameAction(null, ActionClasses.WAIT);
 	}
 	
 	public void onDeath()

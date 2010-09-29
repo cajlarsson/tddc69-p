@@ -67,7 +67,8 @@ public class Contestant
 			{
 				if ( P == physicals.get(i))
 				{
-					physicals.get(i).onDeath(); //FIXME inte färdigt egentligen
+					physicals.get(i).onDeath(); 
+					//FIXME inte färdigt egentligen
 					physicals.remove(i);
 				}
 			}
