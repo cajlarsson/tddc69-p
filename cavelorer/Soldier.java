@@ -8,7 +8,7 @@ public class Soldier extends Physical
 	private ArrayList<GameAction> actions;
 	private Direction direction;
 	private Position position;
-	private int weapon; // FIXME fel typ, implementera
+	private Weapon weapon; // FIXME fel typ, implementera
 	
 	private Contestant contestant;
 	
@@ -88,12 +88,7 @@ public class Soldier extends Physical
 		
 	}
 	
-	private boolean gotStraightLine(Position position)
-	{
-		return ((position.x == this.position.x)
-			|| (position.y == this.position.y));
-	}
-	
+		
 	private Direction getLongDirection(Position position)
 	{
 		Position diff = this.position.subtract(position);
@@ -120,8 +115,6 @@ public class Soldier extends Physical
 		}
 	}
 	
-	
-	
 	private GameAction shootClosest()
 	{
 		Position nearestPosition = null;
@@ -129,7 +122,8 @@ public class Soldier extends Physical
 		
 		for (Position P : contestant.getEnemies())
 		{
-			if (gotStraightLine(P)
+			if (contestant.gotStraightLine(P, position)
+			    && P.distance(position) < weapon.getRange()
 			    && P.distance(position) < shortestDistance)
 			{
 				shortestDistance = P.distance(position);
@@ -137,8 +131,11 @@ public class Soldier extends Physical
 			}
 		}
 
-		if (nearestPosition != null)
+		if (nearestPosition != null
+		    && weapon.ready())
+
 		{
+			
 			return new GameAction(nearestPosition,
 					      ActionClasses.SHOOT,
 					      getLongDirection(nearestPosition),
@@ -146,5 +143,11 @@ public class Soldier extends Physical
 		}
 		
 		return null;
+	}
+		
+	public  void preformTick()
+	{
+		super.preformTick();
+		weapon.tick();
 	}
 }

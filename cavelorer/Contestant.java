@@ -142,4 +142,12 @@ public class Contestant
 
 		return seenEnemies;
 	}
+
+	public boolean gotStraightLine(Position pos1, Position pos2)
+	{
+		//FIXME kolla att spelaren ser alla rutor mellan också
+		return	(pos1.x == pos2.x
+			 || pos1.y == pos2.y);
+		       
+	}
 }
