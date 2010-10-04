@@ -4,7 +4,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
 import caveexplorer.cavelorer.*;
-
+import java.awt.image.*;
 public class PaintImage extends Paintee
 {
 	private Position position;
@@ -19,8 +19,20 @@ public class PaintImage extends Paintee
 
 	public void Paint(Graphics g)
 	{
-		g.setColor(Color.PINK);
-		g.fillRect(position.x, position.y, 10,10);
+		g.drawImage( ClientImages.getImage(image),
+			     position.x,
+			     position.y,
+			     new ImageObserver()
+			     {
+				     public  boolean imageUpdate(Image img,
+						 int infoflags, 
+						 int x, int y,
+						 int width,
+						 int height)
+ 				     {
+					     return true;
+				     }
+			     });
 	}
 				
 	public void cwRotate()
@@ -31,6 +43,10 @@ public class PaintImage extends Paintee
 	public void acwRotate()
 	{
 	}
-		
+	
+	public void setImage(Images image)
+	{
+		this.image = image;
+	}
 	
 }

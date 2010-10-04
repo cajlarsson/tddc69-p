@@ -13,9 +13,9 @@ public class MapLayer extends ArrayList<Paintee>
 	
 	public void PaintLayer(Graphics g)
 	{
-		for (int i = 0; i < size() ; i++)
+		for (Paintee P : this)
 		{
-			get(i).Paint(g);
+			P.Paint(g);
 		}
 	}
 }

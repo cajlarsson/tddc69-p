@@ -8,26 +8,33 @@ import java.io.*;
 public  class ClientImages
 {
 	private static final ClientImages instace = new ClientImages();
-	ArrayList<Image> images;	
+	static	ArrayList<Image> images;	
 	
 	private ClientImages()
 	{
 		images = new ArrayList<Image>();
-		
+		String path = new String("caveexplorer/client/pics/");
 		try
 		{
 			images.add(ImageIO.read(
-					   new File("asd")));
+					   new File(path + "loldiern.bmp")));
 			images.add(ImageIO.read(
-					   new File("asd")));
+					   new File(path +"loldiere.bmp")));
 			images.add(ImageIO.read(
-					   new File("asd")));
+					   new File(path +"loldiers.bmp")));
 			images.add(ImageIO.read(
-					   new File("asd")));
+					   new File(path +"loldierw.bmp")));
 			images.add(ImageIO.read(
-					   new File("asd")));
+					   new File(path + "UndugDirtBg.bmp")));
 			images.add(ImageIO.read(
-					   new File("asd")));
+					   new File(path + "dugDirtBg.bmp")));
+			images.add(ImageIO.read(
+					   new File(path + "mine.bmp")));
+			images.add(ImageIO.read(
+					   new File(path + "smallbomb.bmp")));
+			images.add(ImageIO.read(
+					   new File(path + "smallbomb.bmp")));
+
 		}catch (IOException e)
 		{
 			int i;
@@ -36,6 +43,6 @@ public  class ClientImages
 	
 	public static Image getImage(Images image)
 	{
-		return null;
+		return  images.get(image.ordinal());
 	}
 }
