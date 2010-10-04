@@ -1,3 +1,4 @@
+package caveexplorer;
 import java.util.*;
 
 public class CaveExplorer

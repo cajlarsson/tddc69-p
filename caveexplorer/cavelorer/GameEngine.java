@@ -1,4 +1,4 @@
-package cavelorer;
+package caveexplorer.cavelorer;
 import java.util.ArrayList;
 import javax.swing.*;
 import java.awt.event.*;

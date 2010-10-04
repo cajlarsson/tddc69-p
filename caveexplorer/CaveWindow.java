@@ -1,4 +1,4 @@
-
+package caveexplorer;
 import java.util.*;
 import javax.swing.*;
 import java.awt.*;
@@ -6,6 +6,7 @@ import java.awt.event.*;
 import java.awt.image.*;
 import javax.imageio.*;
 import java.io.*;
+import caveexplorer.client.*;
 
 public class CaveWindow extends JFrame{
 
@@ -28,7 +29,7 @@ public class CaveWindow extends JFrame{
 			{
 				public void actionPerformed(ActionEvent e)
 				{
-					//TODO skapa joinwindow
+					new ClientWindow();
 				}
 			});
 		}
@@ -60,7 +61,7 @@ public class CaveWindow extends JFrame{
 			{
 				public void actionPerformed(ActionEvent e)
 				{
-					//TODO starta spel med ai
+					new ClientWindow();				
 				}
 			});
 		}
@@ -90,7 +91,8 @@ public class CaveWindow extends JFrame{
 		{
 			try
 			{
-				image = ImageIO.read(new File("cave5.jpg"));
+				image = ImageIO.read(
+					new File("caveexplorer/cave5.jpg"));
 			} catch (IOException ex) 
 			{
 				System.exit(1);

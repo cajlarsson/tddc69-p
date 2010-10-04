@@ -1,4 +1,4 @@
-package cavelorer;
+package caveexplorer.cavelorer;
 import java.util.*;
  
 public class SmallBomb extends Weapon

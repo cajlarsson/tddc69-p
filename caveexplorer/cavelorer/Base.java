@@ -1,4 +1,4 @@
-package cavelorer;
+package caveexplorer.cavelorer;
 
 public class Base extends Physical
 {
