@@ -7,18 +7,20 @@ import caveexplorer.cavelorer.*;
 
 public abstract class Paintee
 {
-	protected Position position;
+	private Position position;
 	
 	public Paintee(Position position)
 	{
 		this.position = position;
 	}
 
-	public abstract void Paint(Graphics g);
+	public abstract void Paint(Graphics g, JComponent owner);
 	
-	
-	
-	
+	public Position getPosition()
+	{
+		return position;
+	}
+		
 	public void setPosition(Position position)
 	{
 		this.position = position;

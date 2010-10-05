@@ -17,22 +17,12 @@ public class PaintImage extends Paintee
 	
 	}
 
-	public void Paint(Graphics g)
+	public void Paint(Graphics g, JComponent owner)
 	{
-		g.drawImage( ClientImages.getImage(image),
-			     position.x,
-			     position.y,
-			     new ImageObserver()
-			     {
-				     public  boolean imageUpdate(Image img,
-						 int infoflags, 
-						 int x, int y,
-						 int width,
-						 int height)
- 				     {
-					     return true;
-				     }
-			     });
+	   		g.drawImage( ClientImages.getImage(image),
+				     getPosition().x*10,
+				     getPosition().y*10,
+				     owner);
 	}
 				
 	public void cwRotate()

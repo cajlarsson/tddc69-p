@@ -4,6 +4,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
 import caveexplorer.cavelorer.*;
+
 public class GamePanel extends JComponent
 {
 	private ArrayList<MapLayer> layers;
@@ -21,7 +22,8 @@ public class GamePanel extends JComponent
 		
 		for (MapLayer l : layers)
 		{
-			l.PaintLayer(g);
+			System.out.print("lager");
+			l.PaintLayer(g, this);
 		}
 	}
 	
@@ -34,14 +36,12 @@ public class GamePanel extends JComponent
 			for ( int j = 0 ; j < height; j++)
 			{
 				temp.add(new PaintImage(Images.DIRT,
-							new Position(i,j)));	 
+							new Position(i,
+								     j)));	 
 			}
 		}
-
 		return temp;		
 	}
-
-	
 }
 
 
