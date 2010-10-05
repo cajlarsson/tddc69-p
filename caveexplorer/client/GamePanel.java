@@ -8,8 +8,9 @@ import caveexplorer.cavelorer.*;
 public class GamePanel extends JComponent
 {
 	private ArrayList<MapLayer> layers;
-	
-       	public GamePanel(int width, int height)
+	private ArrayList<MovableUnit> movableUnits;
+		
+	public GamePanel(int width, int height)
 	{
 		layers = new ArrayList<MapLayer>();
 		layers.add(generateBottomLayer(width,height));
@@ -22,8 +23,7 @@ public class GamePanel extends JComponent
 		
 		for (MapLayer l : layers)
 		{
-			System.out.print("lager");
-			l.PaintLayer(g, this);
+			l.paintLayer(g, this);
 		}
 	}
 	
@@ -40,8 +40,15 @@ public class GamePanel extends JComponent
 								     j)));	 
 			}
 		}
+		
 		return temp;		
 	}
+
+	public void addUnit(MovableUnit movableUnit, Position position)
+	{
+		
+	}
+       
 }
 
 

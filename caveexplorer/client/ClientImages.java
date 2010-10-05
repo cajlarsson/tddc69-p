@@ -35,7 +35,7 @@ public  class ClientImages
 					   new File(path + "smallbomb.bmp")));
 			images.add(ImageIO.read(
 					   new File(path + "smallbomb.bmp")));
-
+			
 		}catch (IOException e)
 		{
 			int i;

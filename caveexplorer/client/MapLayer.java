@@ -11,7 +11,7 @@ public class MapLayer extends ArrayList<Paintee>
 		super();
 	}
 	
-	public void PaintLayer(Graphics g, JComponent owner)
+	public void paintLayer(Graphics g, JComponent owner)
 	{
 		for (Paintee P : this)
 		{

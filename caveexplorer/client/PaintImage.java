@@ -39,4 +39,8 @@ public class PaintImage extends Paintee
 		this.image = image;
 	}
 	
+	public void setPosition(Position position)
+	{
+		this.position = position;
+	}
 }
