@@ -7,18 +7,20 @@ public  class MovableUnit
 {
 	private MapLayer layer;
 	private PaintImage paintImage;
-	
+	private int ID;
 	public MovableUnit(ArrayList<MapLayer> layers, 
 			   Units unitType,
-			   Position position)
+			   Position position,
+			   int ID)
 	{
+		this.ID = ID;
 		this.layer = layers.get(Util.getLayer(unitType).ordinal());
 		this.paintImage = new PaintImage( Util.getImage(unitType),
 						  position);
 		layer.add(paintImage);
 	}
 	
-	public void RemoveImage()
+	public void removeImage()
 	{
 		for( int i = 0; i < layer.size(); i++)
 		{
@@ -33,6 +35,11 @@ public  class MovableUnit
 	public void moveTo(Position position)
 	{
 		paintImage.setPosition(position);
+	}
+
+	public int getID()
+	{
+		return ID;
 	}
 }
 

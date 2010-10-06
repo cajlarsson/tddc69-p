@@ -29,7 +29,7 @@ public class CaveWindow extends JFrame{
 			{
 				public void actionPerformed(ActionEvent e)
 				{
-					new ClientWindow();
+					new ClientWindow(null,null);
 				}
 			});
 		}
@@ -61,7 +61,7 @@ public class CaveWindow extends JFrame{
 			{
 				public void actionPerformed(ActionEvent e)
 				{
-					new ClientWindow();				
+					new ClientWindow(null,null);				
 				}
 			});
 		}
