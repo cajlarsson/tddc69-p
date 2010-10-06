@@ -10,10 +10,32 @@ public class GamePanel extends JComponent
 	private ArrayList<MapLayer> layers;
 	private ArrayList<MovableUnit> movableUnits;
 		
+	private class ClickListener extends MouseAdapter 
+	{
+		public void mouseClicked(MouseEvent ev) 
+		{
+		
+	        }
+			
+		public void mousePressed(MouseEvent ev)
+		{
+			//	dostuff(ev.getX() /10, ev.getY()/10) ;	
+			addUnit(Units.HOLE,
+				new Position( ev.getX() /10, ev.getY() /10));
+		}
+	}
+	
 	public GamePanel(int width, int height)
 	{
 		layers = new ArrayList<MapLayer>();
-		layers.add(generateBottomLayer(width,height));
+		movableUnits = new ArrayList<MovableUnit>();
+		layers.add(generateBottomLayer(width,height)); //DIRT
+		layers.add(new MapLayer()); //DIG
+		layers.add(new MapLayer());//FLOOR
+		layers.add(new MapLayer()); //UNIT
+		layers.add(new MapLayer());//PROJECTILES		
+
+		addMouseListener(new ClickListener());
 	}
 	
 	public void paintComponent(Graphics g)
@@ -44,11 +66,17 @@ public class GamePanel extends JComponent
 		return temp;		
 	}
 
-	public void addUnit(MovableUnit movableUnit, Position position)
+	public void addUnit(Units unitType, Position position)
 	{
+		movableUnits.add( new MovableUnit(layers,
+						  unitType,
+						  position));
+		repaint();
 		
 	}
        
+	
+
 }
 
 

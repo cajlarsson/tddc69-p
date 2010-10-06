@@ -105,7 +105,7 @@ public class CaveWindow extends JFrame{
 		}
 	}
 
-	public CaveWindow()
+      	public CaveWindow()
 	{
 	    super("Cave Explorer");
 

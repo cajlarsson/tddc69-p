@@ -8,10 +8,13 @@ public  class MovableUnit
 	private MapLayer layer;
 	private PaintImage paintImage;
 	
-	public MovableUnit( MapLayer layer, PaintImage paintImage)
+	public MovableUnit(ArrayList<MapLayer> layers, 
+			   Units unitType,
+			   Position position)
 	{
-		this.layer = layer;
-		this.paintImage = paintImage;
+		this.layer = layers.get(Util.getLayer(unitType).ordinal());
+		this.paintImage = new PaintImage( Util.getImage(unitType),
+						  position);
 		layer.add(paintImage);
 	}
 	
