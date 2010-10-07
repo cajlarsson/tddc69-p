@@ -1,4 +1,3 @@
-
 package caveexplorer.client;
 public enum MessageType
 {

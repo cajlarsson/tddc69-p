@@ -1,6 +1,7 @@
 package caveexplorer.cavelorer;
 
 import java.util.*;
+import caveexplorer.client.*;
 
 public class Contestant
 {
@@ -9,7 +10,10 @@ public class Contestant
 	private ArrayList<Position> knownSquares; //FIXME;
 	private ArrayList<Position> dugSquares;
 	private ArrayList<Position> seenEnemies;
+	private ArrayList<CaveMessage> outMsg;
 	private Monies money;
+	private ObjectInterface msgInterface;
+    
 	
 //	private int mapWidth;
 //	private int mapHeight;
@@ -21,17 +25,16 @@ public class Contestant
 	{
 		this.game = game;
 		this.ID = ID;
+		this.msgInterface = msgInterface;
+		
 		money = new Monies();
 		game.addTimeDependent(money);
 		
 		dugSquares = new ArrayList<Position>();
 
 		physicals = new ArrayList<Physical>();
-		
-		//mapWidth = game.mapSize().x;
-		//mapHeight = game.mapSize().y;
-		
-		//FIXMEH ??
+
+		outMsg = new ArrayList<CaveMessage>();
 	}
 	
 	public void buildBase(Position position) // tar övre vänstra hörnet
@@ -149,5 +152,26 @@ public class Contestant
 		return	(pos1.x == pos2.x
 			 || pos1.y == pos2.y);
 		       
+	}
+	
+	public void pushMsg(CaveMessage msg)
+	{
+		
+		switch ( msg.getType())
+		{
+		case ORDER:
+		case MOVE: 
+		case IMPOSSIBLE_ORDER:
+		case CREATE_UNIT:
+		case KILL:
+		case SHOOT: 
+		case MOVE_A:
+		case CREATE_UNIT_A:
+		}	
+	}
+
+	public ArrayList<CaveMessage> getMsg()
+	{
+		return outMsg;
 	}
 }

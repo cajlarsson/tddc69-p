@@ -8,7 +8,7 @@ import java.io.*;
 public class ClientWindow extends JFrame
 {
 	private GamePanel panel;
-	private ObjectOutputStream msgStream;
+	private ObjectOutputStream msgOutStream;
 
     	private class KeyboardListener extends KeyAdapter
 	{
@@ -18,14 +18,15 @@ public class ClientWindow extends JFrame
 		}
 	}
     
-	public ClientWindow(ObjectOutputStream msgStream)
+	public ClientWindow(OutputStream msgOutStream,
+			    InputStream msgInputStream)
 	{
 		super("Caves are being explored.");
-		this.msgStream = msgStream;
+		this.msgOutStream = msgOutStream;
 		setSize(1200,950);
 		
 		setLayout(new BorderLayout());
-		panel = new GamePanel(80,80,msgStream,null);
+		panel = new GamePanel(80,80,msgOutStream,null);
 		add(panel,BorderLayout.CENTER);
 		setFocusableWindowState(true);
 
