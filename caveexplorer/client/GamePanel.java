@@ -77,10 +77,10 @@ public class GamePanel extends JComponent
 		default:
 		    System.out.println("clicky"); //FIXME REMOVE
 		    break;
-
-       	}
+		    
+		}
+	}
     }
-    
     
     
     public GamePanel(int width, int height, 
