@@ -18,6 +18,7 @@ public class Position
 		case RIGHT: return new Position(x + 1, y);
 		case DOWN: return new Position(x, y + 1); 
 		case LEFT: return new Position(x - 1, y); 
+		case NONE: return this;
 		}
 		return null; //IMPOSSIBLE + SILENT FAIL
 	}
