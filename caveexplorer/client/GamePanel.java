@@ -177,7 +177,6 @@ public class GamePanel extends JComponent
 		break;
 	    }
 	//removeUnit(++D);
->>>>>>> made some plans and doodled a bit
     }
 
     public void keyReleased(KeyEvent e)
