@@ -4,7 +4,7 @@ import java.util.*;
 import caveexplorer.client.*;
 import java.io.*;
 
-public class Contestant implements MessageOutput,Tickablec
+public class Contestant implements MessageOutput,Tickable
 {
    private ArrayList<Physical> physicals;
    //	private int base; //FIXME;
@@ -40,26 +40,25 @@ public class Contestant implements MessageOutput,Tickablec
    
    public void buildBase(Position position) // tar övre vänstra hörnet
    {
-      //FIXME KLAR?
-      for (int x = position.x; x < (position.x +6) ; x++)
+      //FIXME KLAR? IGEN, KLAR?
+      for (int x = position.x - 3; x < (position.x +5) ; x++)
       {
-	 for (int y = position.y; y < (position.y +6) ; y++)
+	 for (int y = position.y - 3 ; y < (position.y +5) ; y++)
 	 {
 	    applyAction(new  GameAction( new Position(x,y),ActionClasses.DIGIND,
 					 Direction.NONE,null));
 	 }
       }
 		
-      Base base = new Base();
-		
-      game.addPhysical(position, base);
-      game.addPhysical(new Position(position.x + 1, position.y)
-		       , base);
-      game.addPhysical(new Position(position.x, position.y + 1)
-		       , base);
-      game.addPhysical(new Position(position.x + 1, position.y + 1)
-		       , base);
-		
+      Base base = new Base(ID,game.getNewUnitID());
+      applyAction( new GameAction(position,ActionClasses.SPAWN,
+				  Direction.NONE,base));
+      applyAction( new GameAction(new Position(position.x + 1, position.y),
+				  ActionClasses.SPAWN,Direction.NONE,base));
+      applyAction( new GameAction(new Position(position.x, position.y + 1),
+				  ActionClasses.SPAWN,Direction.NONE,base));
+      applyAction( new GameAction(new Position(position.x + 1, position.y + 1),
+				  ActionClasses.SPAWN, Direction.NONE,base));
       physicals.add(base);
       game.addTimeDependent(base);
    }
@@ -121,11 +120,7 @@ public class Contestant implements MessageOutput,Tickablec
 		&& game.isDug(action.position().step(
 				 action.direction())))
 	    {
-				
 	       //TODO fyll ut
-		       
-				
-				
 	    }
 	    break;
 	 case WAIT:
@@ -138,7 +133,14 @@ public class Contestant implements MessageOutput,Tickablec
 			
       }
    }
-    
+   public  void preformTick()
+   {
+      for (Position P :knownSquares)
+      {
+	 
+      }
+   }
+   
    public void dig(GameAction action, boolean indestructable)
    {
       Position position = action.position().step(
@@ -168,7 +170,7 @@ public class Contestant implements MessageOutput,Tickablec
 			   action.physical());
 	 msgQueue.add(new CreateUnitMessage(
 			 MessageType.CREATE_UNIT,
-			 game.getNewUnitID(),
+			 action.physical().ID(),
 			 action.position(),
 			 action.physical().getType()));
       }
@@ -199,7 +201,9 @@ public class Contestant implements MessageOutput,Tickablec
 	 return new CaveMessage(MessageType.NOMSG);
       }else
       {
-	 return msgQueue.get(0);
+	 CaveMessage temp = msgQueue.get(0);
+	 msgQueue.remove(0);
+	 return temp;
       }
    }
     
@@ -210,7 +214,7 @@ public class Contestant implements MessageOutput,Tickablec
       switch(msg.getType())
       {
 	 case CREATE_UNIT_A:
-	     //	    game.addPhysical(msg
+	    //	    game.addPhysical(msg
 	    break;
 	 default: break;
 
@@ -220,6 +224,6 @@ public class Contestant implements MessageOutput,Tickablec
 
    public void setMessageOutput(MessageOutput msgOutput)
    {
-       this.msgOutput = msgOutput;	
+      this.msgOutput = msgOutput;	
    }
 }

@@ -13,9 +13,9 @@ public class Soldier extends Physical
 	
     private Contestant contestant;
 	
-    public Soldier(Contestant contestant)
+    public Soldier(Contestant contestant,int owner, int ID)
     {
-	super(true, false, 100,20);
+	super(true, false, 100,20,owner,ID);
 	this.contestant = contestant;
 	orders = new ArrayList<GameOrder>();
 	actions = new ArrayList<GameAction>();

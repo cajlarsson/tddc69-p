@@ -68,7 +68,8 @@ public class GamePanel extends JComponent implements MessageOutput,
       layers = new ArrayList<MapLayer>();
 	
       movableUnits = new ArrayList<MovableUnit>();
-      layers.add(generateBottomLayer(width,height)); //DIRT
+      //   layers.add(generateBottomLayer(width,height)); //DIRT
+      layers.add(new MapLayer()); //DIG
       layers.add(new MapLayer()); //DIG
       layers.add(new MapLayer());//FLOOR
       layers.add(new MapLayer()); //UNIT
@@ -96,15 +97,14 @@ public class GamePanel extends JComponent implements MessageOutput,
 	 l.paintLayer(g, this);
       }
    }
-    
-
+   
    private MapLayer generateBottomLayer(int width, int height)
    {
       BufferedImage img = new BufferedImage(width*10, height*10,
 					    BufferedImage.TYPE_INT_RGB);
       img.createGraphics();
       Graphics2D g = (Graphics2D)img.getGraphics();
-      g.setColor(new Color(0xCC6600));
+      g.setColor(new Color(0xCC6644));
       g.fillRect(0, 0, width * 10, height * 10);
 	
       MapLayer temp = new MapLayer();
@@ -113,16 +113,23 @@ public class GamePanel extends JComponent implements MessageOutput,
       return temp;		
    }
     
-
    public void addUnit(Units unitType, Position position, int ID)
    {
       movableUnits.add( new MovableUnit(layers,
 					unitType,
 					position,
 					ID));
+      System.out.print(String.valueOf(unitType.ordinal()));
       repaint();
    }
     
+   public void addUnit(CreateUnitMessage msg)
+   {
+      addUnit(msg.getUnits(),
+	      msg.getPosition(),
+	      msg.getID());
+   }
+
    public void removeUnit(int ID)
    {
       for (int i = 0 ; i < movableUnits.size(); i++)
@@ -171,6 +178,7 @@ public class GamePanel extends JComponent implements MessageOutput,
 
    private CaveMessage getMessage()
    {
+      
       return msgOutput.popMessageQueue();
    }
    
@@ -181,12 +189,16 @@ public class GamePanel extends JComponent implements MessageOutput,
 	 return new CaveMessage(MessageType.NOMSG);
       }else
       {
-	 return msgQueue.get(0);
+	 CaveMessage temp = msgQueue.get(0);
+	 msgQueue.remove(0);
+	 return temp;
       }
    }
    
    public void pushMessage(CaveMessage msg)
    {
+      System.out.print("new message: ");
+      
 	
       switch (msg.getType())
       {
@@ -198,19 +210,25 @@ public class GamePanel extends JComponent implements MessageOutput,
 	    break; 
 	 case IMPOSSIBLE_ORDER: 
 	    break; 
-	 case CREATE_UNIT: 
-	    addUnit(((CreateUnitMessage)msg).getUnits(),
-		    ((CreateUnitMessage)msg).getPosition(),
-		    ((CreateUnitMessage)msg).getID());
+	 case CREATE_UNIT:
+	    System.out.print("CREATE\n");
+	    addUnit((CreateUnitMessage)msg);
+		    
+		    
 	    break; 
 	 case KILL: 
 	    removeUnit(((UnitMessage)msg).getID());
 	    break;
 	 case SHOOT: 
 	    break; 
-	 default: break;
+	    
+	 default: 
+	    System.out.print("OTHER\n");
+	    break;
       }
    }
+   
+
    
    public void setMessageOutput(MessageOutput msgOutput)
    {

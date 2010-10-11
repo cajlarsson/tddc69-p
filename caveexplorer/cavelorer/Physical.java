@@ -16,14 +16,20 @@ public abstract class Physical implements Tickable
 	
     private int maxHealth;
     
+    private int owner;
+    private int ID;
+    
 
-    public Physical(boolean big,boolean blind, int maxHealth, int tickToHeal)
+    public Physical(boolean big,boolean blind, int maxHealth, int tickToHeal,
+		    int Owner,int ID)
     {
 	this.tickToHeal = tickToHeal;
 	this.health = maxHealth;
 	this.maxHealth = maxHealth;
 	this.big = big;
 	this.blind = blind;
+	this.owner = owner;
+	this.ID = ID;
     }
 	
     protected void healthTick()
@@ -72,6 +78,15 @@ public abstract class Physical implements Tickable
 		alive = false;
 		maxHealth = -1;
 	    }
+    }
+    public int owner()
+    {
+	return owner;
+    }
+    
+    public int ID()
+    {
+	return ID;
     }
 	
     public abstract GameAction nextAction(); // ska ge nästa action objekt

@@ -16,6 +16,7 @@ public class MapLayer extends ArrayList<Paintee>
 		for (Paintee P : this)
 		{
 			P.Paint(g,owner);
+			//	System.out.print("lolritade\n");
 		}
 	}
 }
