@@ -135,6 +135,8 @@ public class Contestant implements MessageOutput,Tickable
    }
    public  void preformTick()
    {
+   
+      
       for (Position P :knownSquares)
       {
 	 
@@ -209,18 +211,27 @@ public class Contestant implements MessageOutput,Tickable
     
    public void processMessages()
    {
-      CaveMessage msg = getMessage();
-      
-      switch(msg.getType())
+      while(true)
       {
-	 case CREATE_UNIT_A:
-	    //	    game.addPhysical(msg
+	 CaveMessage msg = getMessage();
+	 if (msg.getType() == MessageType.NOMSG)
+	 {
 	    break;
-	 default: break;
-
+	 }else
+	 {
+	    switch(msg.getType())
+	    {
+	       case CREATE_UNIT_A:
+		  //	    game.addPhysical(msg
+		  break;
+	       default: break;
+	    }
+	 }
       }
-      
    }
+      
+   
+   
 
    public void setMessageOutput(MessageOutput msgOutput)
    {

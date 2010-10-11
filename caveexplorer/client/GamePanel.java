@@ -68,8 +68,7 @@ public class GamePanel extends JComponent implements MessageOutput,
       layers = new ArrayList<MapLayer>();
 	
       movableUnits = new ArrayList<MovableUnit>();
-      //   layers.add(generateBottomLayer(width,height)); //DIRT
-      layers.add(new MapLayer()); //DIG
+      layers.add(generateBottomLayer(width,height)); //DIRT
       layers.add(new MapLayer()); //DIG
       layers.add(new MapLayer());//FLOOR
       layers.add(new MapLayer()); //UNIT
@@ -83,7 +82,15 @@ public class GamePanel extends JComponent implements MessageOutput,
     
    public void actionPerformed(ActionEvent e)
    {
-      pushMessage(getMessage());
+      while(true)
+      {
+	 CaveMessage temp = getMessage();
+	 if (temp.getType() == MessageType.NOMSG)
+	 {
+	    break;
+	 }else
+	    pushMessage(temp);
+      }
       //doTick();
    }
    
@@ -104,7 +111,7 @@ public class GamePanel extends JComponent implements MessageOutput,
 					    BufferedImage.TYPE_INT_RGB);
       img.createGraphics();
       Graphics2D g = (Graphics2D)img.getGraphics();
-      g.setColor(new Color(0xCC6644));
+      g.setColor(new Color(0xAA660F));
       g.fillRect(0, 0, width * 10, height * 10);
 	
       MapLayer temp = new MapLayer();
