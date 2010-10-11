@@ -33,7 +33,7 @@ public class CaveWindow extends JFrame
                 {
                     public void actionPerformed(ActionEvent e)
                     {
-                        new ClientWindow(null,null);
+			//   new ClientWindow(null,null);
                     }
                 });
         }
@@ -65,32 +65,17 @@ public class CaveWindow extends JFrame
                 {
                     public void actionPerformed(ActionEvent e)
 		    {
-			try
-			    {
-			    
-			    PipedInputStream inStream1 = new PipedInputStream();    
-			    PipedOutputStream outStream1 = new PipedOutputStream(
-										 inStream1);
-			    
-			    PipedInputStream inStream2 = new PipedInputStream();    
-			    PipedOutputStream outStream2 = new PipedOutputStream(
-										 inStream2);
-			    
-			    ArrayList<ObjectInterface> interfaces = new 
-				ArrayList<ObjectInterface>();
-			    
-			    interfaces.add(new ObjectInterface(
-							       outStream2,
-							       inStream1));
-			    
-			    new GameEngine(100,100,
-					   interfaces);
+			int width = 80;
+			int height = 80;
+			ClientWindow client1 = new ClientWindow(width,height);
+			ClientWindow client2 = new ClientWindow(width,height);
 			
-			    new ClientWindow(outStream1,inStream2); 
-			    }catch(IOException exception)
-			    {
-				System.out.print("something failed in creating streams");
-			    }
+			GameEngine engine = new GameEngine(width,height);
+
+			engine.addContestant( new Position(10, height/2),
+					      client1);
+			engine.addContestant( new Position(width -10, height/2),
+					      client2);		
 		    }
                 });
         }

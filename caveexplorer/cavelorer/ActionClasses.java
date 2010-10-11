@@ -1,6 +1,3 @@
-
-
-
 package caveexplorer.cavelorer;
 public enum ActionClasses
 {

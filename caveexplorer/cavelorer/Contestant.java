@@ -4,221 +4,189 @@ import java.util.*;
 import caveexplorer.client.*;
 import java.io.*;
 
-public class Contestant
+public class Contestant implements MessageOutput
 {
-    private ArrayList<Physical> physicals;
-    //	private int base; //FIXME;
-    private ArrayList<Position> knownSquares; //FIXME;
-    private ArrayList<Position> dugSquares;
-    private ArrayList<Position> seenEnemies;
-    private ArrayList<CaveMessage> outMsg;
-    private Monies money;
-    private ObjectInterface msgInterface;
+   private ArrayList<Physical> physicals;
+   //	private int base; //FIXME;
+   private ArrayList<Position> knownSquares; //FIXME;
+   private ArrayList<Position> dugSquares;
+   private ArrayList<Position> seenEnemies;
+   private ArrayList<CaveMessage> msgQueue;
+
+   private Monies money;
+   private ObjectInterface msgInterface;
     
-    private ObjectOutputStream objectOutStream;
-    private ObjectInputStream objectInStream;
+   private MessageOutput msgOutput;
+   
+   private int ID;
+   
+   private GameEngine game;
 
+   public Contestant(GameEngine game, int ID)
+   {
+      this.game = game;
+      this.ID = ID;
+      this.msgInterface = msgInterface;
+            
+      money = new Monies();
+      game.addTimeDependent(money);
+		
+      dugSquares = new ArrayList<Position>();
 
-    //	private int mapWidth;
-    //	private int mapHeight;
-    private int ID;
+      physicals = new ArrayList<Physical>();
+
+      msgQueue = new ArrayList<CaveMessage>();
+   }
+   
+   public void buildBase(Position position) // tar övre vänstra hörnet
+   {
+      //FIXME KLAR?
+      for (int x = position.x; x < (position.x +6) ; x++)
+      {
+	 for (int y = position.y; y < (position.y +6) ; y++)
+	 {
+	    game.digIndestrucable( new Position(x,y), ID);
+	 }
+      }
+		
+      Base base = new Base();
+		
+      game.addPhysical(position, base);
+      game.addPhysical(new Position(position.x + 1, position.y)
+		       , base);
+      game.addPhysical(new Position(position.x, position.y + 1)
+		       , base);
+      game.addPhysical(new Position(position.x + 1, position.y + 1)
+		       , base);
+		
+      physicals.add(base);
+      game.addTimeDependent(base);
+   }
 	
-    private GameEngine game;
-
-    public Contestant(GameEngine game, int ID,OutputStream outStream,
-		      InputStream inStream)
-    {
-	this.game = game;
-	this.ID = ID;
-	this.msgInterface = msgInterface;
-		
-	money = new Monies();
-	game.addTimeDependent(money);
-		
-	dugSquares = new ArrayList<Position>();
-
-	physicals = new ArrayList<Physical>();
-
-	outMsg = new ArrayList<CaveMessage>();
-	try
+   public void  killPhysicals(ArrayList<Physical> deadPhysicals)
+   {
+      for (Physical P: deadPhysicals)
+      {
+	 for (int i = 0; i < physicals.size(); i++)
+	 {
+	    if ( P == physicals.get(i))
 	    {
-		objectInStream = new ObjectInputStream(inStream);
-		objectOutStream = new ObjectOutputStream(outStream);
+	       physicals.get(i).onDeath(); 
+	       //FIXME inte färdigt egentligen
+	       physicals.remove(i);
 	    }
-	catch (IOException e)
-	    {
-		System.out.print("fail i contes");
-	    }
-    
-    }
-    public void buildBase(Position position) // tar övre vänstra hörnet
-    {
-	//FIXME KLAR?
-	for (int x = position.x; x < (position.x +6) ; x++)
-	    {
-		for (int y = position.y; y < (position.y +6) ; y++)
-		    {
-			game.digIndestrucable( new Position(x,y), ID);
-		    }
-	    }
-		
-	Base base = new Base();
-		
-	game.addPhysical(position, base);
-	game.addPhysical(new Position(position.x + 1, position.y)
-			 , base);
-	game.addPhysical(new Position(position.x, position.y + 1)
-			 , base);
-	game.addPhysical(new Position(position.x + 1, position.y + 1)
-			 , base);
-		
-	physicals.add(base);
-	game.addTimeDependent(base);
-    }
+	 }
+      }
+   }
 	
-    public void  killPhysicals(ArrayList<Physical> deadPhysicals)
-    {
-	for (Physical P: deadPhysicals)
+   public void applyAction(GameAction action)
+   {
+      switch (action.actionClass()) 
+      {
+	 case DIG: 
+	    Position position = action.position().step(
+	       action.direction());
+	    game.dig(position, ID);
+	    dugSquares.add(position);
+	    break;
+
+	 case SHOOT: 
+	    //TODO 
+	    break;
+
+	 case EXPLODE:  
+	    //TODO
+	    break;
+
+	 case MOVE:
+	    if (game.isDug(action.position())
+		&& game.gotBig(action.position()))
 	    {
-		for (int i = 0; i < physicals.size(); i++)
-		    {
-			if ( P == physicals.get(i))
-			    {
-				physicals.get(i).onDeath(); 
-				//FIXME inte färdigt egentligen
-				physicals.remove(i);
-			    }
-		    }
+	       game.removePhysical(
+		  action.position(),
+		  action.physical());
+	       game.addPhysical(
+		  action.position().step(action.direction()),
+		  action.physical());
 	    }
-    }
-	
-    public void applyAction(GameAction action)
-    {
-	switch (action.actionClass()) 
+	    break;
+
+	 case SPAWN: 
+	    if (game.isDug(action.position()))
 	    {
-	    case DIG: 
-		Position position = action.position().step(
-							   action.direction());
-		game.dig(position, ID);
-		dugSquares.add(position);
-		break;
+	       physicals.add(action.physical());
+	       game.addPhysical( action.position(),
+				 action.physical());
+	    }
+	    break;
 
-	    case SHOOT: 
-		//TODO 
-		break;
-
-	    case EXPLODE:  
-		//TODO
-		break;
-
-	    case MOVE:
-		if (game.isDug(action.position())
-		    && game.gotBig(action.position()))
-		    {
-			game.removePhysical(
-					    action.position(),
-					    action.physical());
-			game.addPhysical(
-					 action.position().step(action.direction()),
-					 action.physical());
-		    }
-		break;
-
-	    case SPAWN: 
-		if (game.isDug(action.position()))
-		    {
-			physicals.add(action.physical());
-			game.addPhysical( action.position(),
-					  action.physical());
-		    }
-		break;
-
-	    case PICKUP:  
-		if (!game.mapEmpty(action.position().step(
-							  action.direction()))
-		    && !game.gotBig(action.position().step(
-							   action.direction()))
-		    && game.isDug(action.position().step(
-							 action.direction())))
-		    {
+	 case PICKUP:  
+	    if (!game.mapEmpty(action.position().step(
+				  action.direction()))
+		&& !game.gotBig(action.position().step(
+				   action.direction()))
+		&& game.isDug(action.position().step(
+				 action.direction())))
+	    {
 				
-			//TODO fyll ut
+	       //TODO fyll ut
 			       
 				
 				
-		    }
-		break;
-	    case WAIT:
-		break;
+	    }
+	    break;
+	 case WAIT:
+	    break;
 			
-	    }
-    }
+      }
+   }
 	
-    public ArrayList<Position> getEnemies()
-    {
-	return seenEnemies;
-    }
+   public ArrayList<Position> getEnemies()
+   {
+      return seenEnemies;
+   }
 
-    public boolean gotStraightLine(Position pos1, Position pos2)
-    {
-	//FIXME kolla att spelaren ser alla rutor mellan också
-	return	(pos1.x == pos2.x
+   public boolean gotStraightLine(Position pos1, Position pos2)
+   {
+      //FIXME kolla att spelaren ser alla rutor mellan också
+      return	(pos1.x == pos2.x
 		 || pos1.y == pos2.y);
-    }
+   }
     
-    private CaveMessage getMessage()
-    {
-	try
-	    {
-		return ((CaveMessage) objectInStream.readObject());
-	    }
-	catch ( IOException e)
-	    {
-		return null;
-	    }
-	catch (ClassNotFoundException e)
-	    {
-		return null;
-	    }
-    }
+   private CaveMessage getMessage()
+   {
+      return msgOutput.popMessageQueue();
+   }
+	
+   public CaveMessage popMessageQueue()
+   {
+      if (msgQueue.isEmpty())
+      {
+	 return new CaveMessage(MessageType.NOMSG);
+      }else
+      {
+	 return msgQueue.get(0);
+      }
+   }
     
-    public void processMessages()
-    {
-	try 
-	    {
-		while (objectInStream.available() > 0)
-		    {
-			CaveMessage msg = getMessage();
-		
-			switch ( msg.getType())
-			    {
-			    case ORDER:
-			    case MOVE: 
-			    case IMPOSSIBLE_ORDER:
-			    case CREATE_UNIT:
-			    case KILL:
-			    case SHOOT: 
-			    case MOVE_A:
-			    case CREATE_UNIT_A:
-			    }	
-		    }
-	    }
-	catch (IOException e)
-	    {
-       
-	    }
-    }
-	
-	
-    public void sendMessage(CaveMessage msg)
-    {
-	try
-	    {
-		objectOutStream.writeObject(msg);
-	    }
-	catch(IOException e)
-	    {
-		System.out.print("write error");
-	    }	
-    }
+   public void processMessages()
+   {
+      CaveMessage msg = getMessage();
+      
+      switch(msg.getType())
+      {
+	 case CREATE_UNIT_A:
+	    game.addPhysical(msg
+	    
+	    break;
+	 default: break;
+
+      }
+      
+   }
+
+   public void setMessageOutput(MessageOutput msgOutput)
+   {
+       this.msgOutput = msgOutput;	
+   }
 }

@@ -5,10 +5,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 
-public class ClientWindow extends JFrame
+public class ClientWindow extends JFrame implements MessageOutput
 {
     private GamePanel panel;
-    private OutputStream msgOutStream;
     
     private class KeyboardListener extends KeyAdapter
     {
@@ -18,15 +17,13 @@ public class ClientWindow extends JFrame
 	}
     }
     
-    public ClientWindow(OutputStream msgOutStream,
-			InputStream msgInputStream)
+    public ClientWindow(int width, int height)
     {
 	super("Caves are being explored.");
-	this.msgOutStream = msgOutStream;
 	setSize(1200,950);
 	
 	setLayout(new BorderLayout());
-	panel = new GamePanel(80,80,msgOutStream,null);
+	panel = new GamePanel(width,height);
 	add(panel,BorderLayout.CENTER);
 	setFocusableWindowState(true);
 	
@@ -34,4 +31,15 @@ public class ClientWindow extends JFrame
 	//TODO insert  panels and game area
 	setVisible(true);
     }
+    
+    public CaveMessage popMessageQueue()
+    {
+	return panel.popMessageQueue();
+    }
+    
+    public void setMessageOutput(MessageOutput msgOutput)
+    {
+	panel.setMessageOutput(msgOutput);
+    }
+	
 }

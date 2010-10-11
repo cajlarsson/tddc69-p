@@ -1,7 +1,7 @@
 package caveexplorer.client;
 
 import java.io.*;
-public abstract class CaveMessage implements Serializable
+public  class CaveMessage implements Serializable
 {
     private MessageType type;
     

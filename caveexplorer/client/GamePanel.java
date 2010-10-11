@@ -3,28 +3,27 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
 import javax.swing.*;
-import java.util.*;
+import java.util.ArrayList;
 import caveexplorer.cavelorer.*;
 import java.awt.color.*;
 import java.io.*;
 
-public class GamePanel extends JComponent
+public class GamePanel extends JComponent implements MessageOutput,
+					  ActionListener
 {
    private ArrayList<MapLayer> layers;
    private ArrayList<MovableUnit> movableUnits;
-   private ObjectOutputStream msgOutStream;
-   private ObjectInputStream msgInStream;
-   
+   private ArrayList<CaveMessage> msgQueue;
    private char pressedKey = 'x';
+   private int selectedUnit;
+
+   private MessageOutput msgOutput;
    
-   static int D = 0;  //FIXME clean this shit
-   
-   static int I = 0;   //FIXME clean this shit
-   
-   
+   private Timer tickTimer;
+
    private class ClickListener extends MouseAdapter 
    {
-      
+	
       public void mouseClicked(MouseEvent ev) 
       {
 	 
@@ -36,84 +35,69 @@ public class GamePanel extends JComponent
 	 {
 	    case 'w' :
 	    case 'a' :
-	    case 'd' :
+
+	    case 'd' : 	       
+		  
 	    case 's' :
-	       try 
-	       {
-		  msgOutStream.writeObject(
-		     new PosUnitMessage(
-			MessageType.HALT,
-			0,
-			new Position(ev.getX() / 10, 
-				     ev.getY() / 10)));
-	       }catch (IOException e)
-	       {
-		  System.out.println("OBJEKTFEL DIN IDIOT");
-		  
-	       }catch (NullPointerException e)
-	       {
-		  System.out.println("OBJEKTFEL2 DIN IDIOT");
-	       }
+	       msgQueue.add(	  
+		  new UnitMessage(MessageType.ABORT,selectedUnit));		     
 	    break;   
-	    
-	    case 'l' : //create new unit: buggtesttool, 
-	       //FIXME! REMOVE THIS CODE
-	       try 
-	       {
-		  msgOutStream.writeObject(
-		     new PosUnitMessage(
-			MessageType.CREATE_UNIT_A,
-			0,
-			new Position(ev.getX() / 10, 
-				     ev.getY() / 10)));
-	       }catch (IOException e)
-	       {
-		  System.out.println("OBJEKTFEL DIN IDIOT");
-		  
-	       }catch (NullPointerException e)
-	       {
-		  System.out.println("OBJEKTFEL2 DIN IDIOT");
-	       }
-	       break;
+		
+	    case 'l' : //create new unit: buggtesttool, FIXME! REMOVE THIS CODE
+	       msgQueue.add(
+		  new PosUnitMessage(
+		     MessageType.CREATE_UNIT_A,
+		     0,
+		     new Position(ev.getX() / 10, 
+				  ev.getY() / 10)));
 	    default:
-	       System.out.println("clicky"); //FIXME REMOVE
+	       selectUnit(ev.getX() / 10, ev.getY() / 10);
+	       
 	       break;
+		    
 	 }
       }
    }
-   
-   
-   
-   public GamePanel(int width, int height, 
-		    OutputStream msgOutStream,
-		    InputStream msgInStream)
+    
+    
+   public GamePanel(int width, int height)
+
    {
-      this.msgOutStream = new ObjectOutStream(msgOutStream);
-      this.msgInStream = new ObjectInStream(msgInStream);
-      
+      msgQueue = new ArrayList<CaveMessage>();
+
       layers = new ArrayList<MapLayer>();
-      
+	
       movableUnits = new ArrayList<MovableUnit>();
       layers.add(generateBottomLayer(width,height)); //DIRT
       layers.add(new MapLayer()); //DIG
       layers.add(new MapLayer());//FLOOR
       layers.add(new MapLayer()); //UNIT
       layers.add(new MapLayer());//PROJECTILES		
-      
+	
       addMouseListener(new ClickListener());
+      
+      tickTimer = new Timer(100, this); 
+      tickTimer.start();
+   }
+    
+   public void actionPerformed(ActionEvent e)
+   {
+      pushMessage(getMessage());
+      //doTick();
    }
    
    public void paintComponent(Graphics g)
    {
       g.setColor(Color.red);
       g.fillRect(0,0,this.getWidth( ), this.getHeight());
-      
+	
       for (MapLayer l : layers)
       {
 	 l.paintLayer(g, this);
       }
    }
-   
+    
+
    private MapLayer generateBottomLayer(int width, int height)
    {
       BufferedImage img = new BufferedImage(width*10, height*10,
@@ -122,13 +106,14 @@ public class GamePanel extends JComponent
       Graphics2D g = (Graphics2D)img.getGraphics();
       g.setColor(new Color(0xCC6600));
       g.fillRect(0, 0, width * 10, height * 10);
-      
+	
       MapLayer temp = new MapLayer();
       temp.add(new PaintCustomImage(img, new Position(0,0)));
-      
+	
       return temp;		
    }
-   
+    
+
    public void addUnit(Units unitType, Position position, int ID)
    {
       movableUnits.add( new MovableUnit(layers,
@@ -137,7 +122,7 @@ public class GamePanel extends JComponent
 					ID));
       repaint();
    }
-   
+    
    public void removeUnit(int ID)
    {
       for (int i = 0 ; i < movableUnits.size(); i++)
@@ -150,7 +135,6 @@ public class GamePanel extends JComponent
       }
       repaint(); //FIXME  temprorary
    }
-   
    public MovableUnit getUnit(int ID)
    {
       for (MovableUnit M : movableUnits)
@@ -162,7 +146,7 @@ public class GamePanel extends JComponent
       }
       return null;
    }
-   
+
    public void keyPressed(KeyEvent e)
    {
       switch (e.getKeyChar())
@@ -179,16 +163,31 @@ public class GamePanel extends JComponent
       }
       //removeUnit(++D);
    }
-   
    public void keyReleased(KeyEvent e)
    {
       //	removeUnit(++D);
       pressedKey = 'x';
    }
-   
-   public void pushPacket(CaveMessage msg)
+
+   private CaveMessage getMessage()
    {
-      
+      return msgOutput.popMessageQueue();
+   }
+   
+   public CaveMessage popMessageQueue()
+   {
+      if (msgQueue.isEmpty())
+      {
+	 return new CaveMessage(MessageType.NOMSG);
+      }else
+      {
+	 return msgQueue.get(0);
+      }
+   }
+   
+   public void pushMessage(CaveMessage msg)
+   {
+	
       switch (msg.getType())
       {
 	 case ORDER: 
@@ -213,4 +212,14 @@ public class GamePanel extends JComponent
       }
    }
    
+   public void setMessageOutput(MessageOutput msgOutput)
+   {
+      this.msgOutput = msgOutput;
+   }
+   
+   private void selectUnit( int x, int y)
+   {
+      
+   }
+
 }
