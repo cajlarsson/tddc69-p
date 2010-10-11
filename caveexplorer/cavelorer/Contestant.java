@@ -4,7 +4,7 @@ import java.util.*;
 import caveexplorer.client.*;
 import java.io.*;
 
-public class Contestant implements MessageOutput
+public class Contestant implements MessageOutput,Tickablec
 {
    private ArrayList<Physical> physicals;
    //	private int base; //FIXME;
