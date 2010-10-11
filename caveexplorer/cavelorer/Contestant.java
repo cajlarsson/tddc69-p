@@ -19,7 +19,7 @@ public class Contestant implements MessageOutput
    private MessageOutput msgOutput;
    
    private int ID;
-   
+      
    private GameEngine game;
 
    public Contestant(GameEngine game, int ID)
@@ -45,7 +45,8 @@ public class Contestant implements MessageOutput
       {
 	 for (int y = position.y; y < (position.y +6) ; y++)
 	 {
-	    game.digIndestrucable( new Position(x,y), ID);
+	    applyAction(new  GameAction( new Position(x,y),ActionClasses.DIGIND,
+					 Direction.NONE,null));
 	 }
       }
 		
@@ -84,10 +85,7 @@ public class Contestant implements MessageOutput
       switch (action.actionClass()) 
       {
 	 case DIG: 
-	    Position position = action.position().step(
-	       action.direction());
-	    game.dig(position, ID);
-	    dugSquares.add(position);
+	    dig(action,false);
 	    break;
 
 	 case SHOOT: 
@@ -112,12 +110,7 @@ public class Contestant implements MessageOutput
 	    break;
 
 	 case SPAWN: 
-	    if (game.isDug(action.position()))
-	    {
-	       physicals.add(action.physical());
-	       game.addPhysical( action.position(),
-				 action.physical());
-	    }
+	    spawn(action);
 	    break;
 
 	 case PICKUP:  
@@ -130,16 +123,57 @@ public class Contestant implements MessageOutput
 	    {
 				
 	       //TODO fyll ut
-			       
+		       
 				
 				
 	    }
 	    break;
 	 case WAIT:
 	    break;
+	 case DIGIND:
+	    dig(action,true);
+	    break;
+	 case COLLAPSE:
+	    break;
 			
       }
    }
+    
+   public void dig(GameAction action, boolean indestructable)
+   {
+      Position position = action.position().step(
+	 action.direction());
+      if (indestructable)
+      {
+	 game.digIndestrucable(position, ID);
+      }else
+      {
+	 game.dig(position, ID);
+      }
+      dugSquares.add(position);
+      
+      msgQueue.add( new CreateUnitMessage(
+		       MessageType.CREATE_UNIT,
+		       game.getNewUnitID(),
+		       position,
+		       Units.HOLE));		       
+   }
+
+   public void spawn(GameAction action)
+   {
+      if (game.isDug(action.position()))
+      {
+	 physicals.add(action.physical());
+	 game.addPhysical( action.position(),
+			   action.physical());
+	 msgQueue.add(new CreateUnitMessage(
+			 MessageType.CREATE_UNIT,
+			 game.getNewUnitID(),
+			 action.position(),
+			 action.physical().getType()));
+      }
+   }
+  
 	
    public ArrayList<Position> getEnemies()
    {
@@ -176,8 +210,7 @@ public class Contestant implements MessageOutput
       switch(msg.getType())
       {
 	 case CREATE_UNIT_A:
-	    game.addPhysical(msg
-	    
+	     //	    game.addPhysical(msg
 	    break;
 	 default: break;
 

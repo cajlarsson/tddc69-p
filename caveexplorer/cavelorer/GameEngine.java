@@ -22,6 +22,8 @@ public class GameEngine  implements ActionListener
 	
     private Timer tickTimer;
     
+    private int unitIDCounter = 0;
+
     private void initMap(int width, int height)
     {
 	map = new Dirt[width][height];
@@ -147,6 +149,11 @@ public class GameEngine  implements ActionListener
     public void setMessageOutput(MessageOutput msgOutput)
     {
 	
+    }
+    
+    public int getNewUnitID()
+    {
+	return unitIDCounter++;
     }
 
 }

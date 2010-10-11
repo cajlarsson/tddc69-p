@@ -1,5 +1,5 @@
 package caveexplorer.cavelorer;
 public enum ActionClasses
 {
-	DIG, SHOOT, EXPLODE, MOVE, SPAWN, PICKUP, WAIT
+   DIG, SHOOT, EXPLODE, MOVE, SPAWN, PICKUP, WAIT, DIGIND, COLLAPSE
 }
