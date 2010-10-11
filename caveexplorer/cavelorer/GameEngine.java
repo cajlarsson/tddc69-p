@@ -10,18 +10,18 @@ public class GameEngine  implements ActionListener
     private int mapWidth;
     private int mapHeight;
 	
-    private ArrayList<Contestant> contestants;
-	
+    private ArrayList<Contestant> contestantArray;
     private ArrayList<Tickable> timeDependents;
-
     private ArrayList<Physical> deadPhysicals;
-
-    private ArrayList<ObjectInterface> msgInterfaces;
 	
     private Dirt[][] map; 
 	
     private int timesTicked = 0; //OVERFLOW?
+    
+    private int nextID = 0;
 	
+    private Timer tickTimer;
+    
     private void initMap(int width, int height)
     {
 	map = new Dirt[width][height];
@@ -36,37 +36,18 @@ public class GameEngine  implements ActionListener
 	    }
     }
 	
-    public GameEngine(int width, int height,
-		      ArrayList<ObjectInterface> interfaces)
+    public GameEngine(int width, int height)
     {
 	mapHeight = height;
 	mapWidth = width;
 		
-	msgInterfaces = interfaces;
+	timeDependents = new ArrayList<Tickable>();
 
-	Timer tickTimer = new Timer(100, this); 
+	tickTimer = new Timer(100, this); 
 	initMap(mapWidth,mapHeight); 
 		
-	timeDependents = new ArrayList<Tickable>();
-	contestants = new ArrayList<Contestant>();
-				
-	for (int i = 0; i < interfaces.size(); i++)
-	    {
-		OutputStream outS = interfaces.get(i).getOut();
-		InputStream inS = interfaces.get(i).getIn();
-		Contestant contestant = new Contestant(this, i,outS, inS);
-		contestants.add(contestant);
-	    }
-		
-	contestants.get(0).buildBase(new Position(0,mapHeight/2 -3));
-	contestants.get(1).buildBase(new Position(mapWidth -6 ,mapHeight/2 -3));
-		
-	//FIXME insert stuff here
-		
-	tickTimer.start();       //last!?.
-		
-	while(true)
-	    {}		
+
+	contestantArray = new ArrayList<Contestant>();
     }
     public void actionPerformed(ActionEvent e)
     {
@@ -91,7 +72,7 @@ public class GameEngine  implements ActionListener
 		i.preformTick();
 	    }
 	
-	for (Contestant c : contestants)
+	for (Contestant c : contestantArray)
 	    {
 		c.processMessages();	
 	    }
@@ -147,4 +128,25 @@ public class GameEngine  implements ActionListener
     {
 	return map[position.x][position.y].empty();
     }
+
+    public void start()
+    {
+	tickTimer.start();   
+
+    }
+    
+    public void addContestant(Position basePosition,
+			      MessageOutput msgOutput)
+    {
+	Contestant contestant = new Contestant( this, nextID++);
+	contestant.buildBase(basePosition);
+	msgOutput.setMessageOutput(contestant);
+	contestantArray.add(contestant);
+    }
+
+    public void setMessageOutput(MessageOutput msgOutput)
+    {
+	
+    }
+
 }

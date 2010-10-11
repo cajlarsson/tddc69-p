@@ -39,6 +39,11 @@ public  class MovableUnit
 	paintImage.setPosition(position);
     }
     
+    public Position getPosition()
+    {
+	return paintImage.getPosition();
+    }
+    
     public int getID()
     {
 	return ID;

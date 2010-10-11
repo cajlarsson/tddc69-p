@@ -1,6 +1,8 @@
 package caveexplorer.client;
 
+import caveexplorer.cavelorer.*;
 import java.io.*;
+
 public class MoveUnitMessage extends UnitMessage
 {
 	private Units unitType;
@@ -20,6 +22,6 @@ public class MoveUnitMessage extends UnitMessage
 	
 	public Units getUnits()
 	{
-		return unitType
+	    return unitType;
 	}
 }
