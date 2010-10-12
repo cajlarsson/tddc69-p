@@ -15,8 +15,11 @@ public class GamePanel extends JComponent implements MessageOutput,
    private ArrayList<MovableUnit> movableUnits;
    private ArrayList<CaveMessage> msgQueue;
    private char pressedKey = 'x';
+   
    private int selectedUnit;
-
+   
+   private Paintee selectedPaintee;
+   
    private MessageOutput msgOutput;
    
    private Timer tickTimer;
@@ -252,7 +255,8 @@ public class GamePanel extends JComponent implements MessageOutput,
    
    private void selectUnit( int x, int y)
    {
-      
+      Position clickedPos = new Position(x,y);
+      for (MovableUnit M : 
    }
 
 }
