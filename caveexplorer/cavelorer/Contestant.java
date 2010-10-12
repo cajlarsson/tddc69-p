@@ -247,12 +247,14 @@ public class Contestant implements MessageOutput,Tickable
 	    move(new GameAction(((MoveUnitMessage)msg).getPosition(),
 				ActionClasses.MOVE, 
 				getPhysical(((MoveUnitMessage)msg).getID())));
-	    //    game.movePhysical(
-//	   getPhysical(((PosUnitMessage)msg).getID).getPosition(),
-//	   msg.getPosition(),
-//	   getPhysical(((PosUnitMessage)msg).getID));
-	    //	    game.addPhysical(msg
 	    break;
+	 case CREATE_UNIT_A:
+	    spawn(new GameAction(((CreateUnitMessage)msg).getPosition(),
+				 ActionClasses.SPAWN,
+				 new Soldier(this, ID,
+					      ((CreateUnitMessage)msg)
+					      .getID())));
+	 break;
 	 default: break;
       }
    }
