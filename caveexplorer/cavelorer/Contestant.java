@@ -102,17 +102,8 @@ public class Contestant implements MessageOutput,Tickable
 	    break;
 
 	 case MOVE:
-	    if (game.isDug(action.position())
-		&& game.gotBig(action.position()))
-	    {
-	       game.removePhysical(
-		  action.position(),
-		  action.physical());
-	       game.addPhysical(
-		  action.position().step(action.direction()),
-		  action.physical());
-	    }
-	    break;
+	     move(action);
+	     break;
 
 	 case SPAWN: 
 	    spawn(action);
@@ -147,14 +138,21 @@ public class Contestant implements MessageOutput,Tickable
    {
       if (game.isDug(action.position())
 	  && !game.gotBig(action.position()))
-      {
-	 game.removePhysical(
+      {	  game.removePhysical(
 	    game.findPhysical(action.physical()),
 	    action.physical());
 	 game.addPhysical(
 	    action.position(),
 	    action.physical());
+	 
+	 msgQueue.add( new MoveUnitMessage(MessageType.MOVE,
+					   action.physical().getID(),
+					   action.position(),
+					   Units.HOLE));
+					   
       }
+      
+	 
    }
 
    
@@ -243,7 +241,7 @@ public class Contestant implements MessageOutput,Tickable
       switch(msg.getType())
       {
 	 
-	 case MOVE_A:
+      case MOVE_A:
 	    move(new GameAction(((MoveUnitMessage)msg).getPosition(),
 				ActionClasses.MOVE, 
 				getPhysical(((MoveUnitMessage)msg).getID())));

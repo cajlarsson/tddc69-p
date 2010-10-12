@@ -41,25 +41,29 @@ public class GamePanel extends JComponent implements MessageOutput,
 	    case 'w' :
 	    case 'a' :
 
-	    case 'd' : 	       
-		  
+	    case 'd' : 	 
+	       selectedPos = new Position(ev.getX() / 10, ev.getY() / 10);
+	       msgQueue.add(new MoveUnitMessage(MessageType.MOVE_A,
+						selectedUnit,
+						selectedPos,
+						Units.MY_SOLDIER));
+	    break;
 	    case 's' :
 	       msgQueue.add(	  
 		  new UnitMessage(MessageType.ABORT,selectedUnit));		     
-	    break;   
+	       break;   
 		
 	    case 'l' : //create new unit: buggtesttool, FIXME! REMOVE THIS CODE
+	       selectedPos = new Position(ev.getX(), ev.getY());
 	       msgQueue.add(
-		  new PosUnitMessage(
-		     MessageType.CREATE_UNIT_A,
-		     0,
-		     new Position(ev.getX() / 10, 
-				  ev.getY() / 10)));
+		  new CreateUnitMessage( MessageType.CREATE_UNIT_A,
+					 0,
+					 selectedPos,
+					 Units.MY_SOLDIER));
+	       break;
 	    default:
 	       selectUnit(ev.getX() / 10, ev.getY() / 10);
-	       
 	       break;
-		    
 	 }
       }
    }
@@ -175,19 +179,21 @@ public class GamePanel extends JComponent implements MessageOutput,
 
    public void keyPressed(KeyEvent e)
    {
-      switch (e.getKeyChar())
+      char input = e.getKeyChar();
+      switch (input)
       {
 	 case 'a':
 	 case 's':
 	 case 'd':
 	 case 'w':
-	    pressedKey = e.getKeyChar();
+	 case 'l':
+	    pressedKey = input;
 	 break;
 	 default:
 	    pressedKey = 'x';
 	    break;
       }
-      //removeUnit(++D);
+      System.out.print(pressedKey);
    }
    public void keyReleased(KeyEvent e)
    {
@@ -216,10 +222,6 @@ public class GamePanel extends JComponent implements MessageOutput,
    
    public void pushMessage(CaveMessage msg)
    {
-      System.out.print("new message: "+
-		       String.valueOf(msg.getType().ordinal()));
-      
-	
       switch (msg.getType())
       {
 	 case ORDER: 
@@ -227,11 +229,11 @@ public class GamePanel extends JComponent implements MessageOutput,
 	 case MOVE: 
 	    getUnit( ((MoveUnitMessage)msg).getID()).moveTo(
 	       ((MoveUnitMessage)msg).getPosition());
+	    repaint();
 	    break; 
 	 case IMPOSSIBLE_ORDER: 
 	    break; 
 	 case CREATE_UNIT:
-	    System.out.print("CREATE\n");
 	    addUnit((CreateUnitMessage)msg);
 	    break; 
 	 case KILL: 
@@ -244,7 +246,6 @@ public class GamePanel extends JComponent implements MessageOutput,
 	    repaint();
 	    break;
 	 default: 
-	    System.out.print("OTHER\n");
 	    break;
       }
    }

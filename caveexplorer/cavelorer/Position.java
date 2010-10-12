@@ -49,6 +49,6 @@ public class Position
 
    public String stringOf()
    {
-      return  "x: " +String.valueOf(x) +",y: " +String.valueOf(x);
+      return  "x: " +String.valueOf(x) +",y: " +String.valueOf(y);
    }
 }
