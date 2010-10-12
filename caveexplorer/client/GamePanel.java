@@ -20,6 +20,8 @@ public class GamePanel extends JComponent implements MessageOutput,
    private MessageOutput msgOutput;
    
    private Timer tickTimer;
+   
+   private int cash = 0;
 
    private class ClickListener extends MouseAdapter 
    {
@@ -103,6 +105,11 @@ public class GamePanel extends JComponent implements MessageOutput,
       {
 	 l.paintLayer(g, this);
       }
+      
+      g.setFont(new Font("Terminus",0,10));
+      g.setColor(Color.BLACK);
+      g.drawString("MONIES: "+ String.valueOf(cash),10,10);
+      
    }
    
    private MapLayer generateBottomLayer(int width, int height)
@@ -220,15 +227,16 @@ public class GamePanel extends JComponent implements MessageOutput,
 	 case CREATE_UNIT:
 	    System.out.print("CREATE\n");
 	    addUnit((CreateUnitMessage)msg);
-		    
-		    
 	    break; 
 	 case KILL: 
 	    removeUnit(((UnitMessage)msg).getID());
 	    break;
 	 case SHOOT: 
 	    break; 
-	    
+	 case SETCASH:
+	    cash = ((UnitMessage)msg).getID(); //misuse
+	    repaint();
+	    break;
 	 default: 
 	    System.out.print("OTHER\n");
 	    break;

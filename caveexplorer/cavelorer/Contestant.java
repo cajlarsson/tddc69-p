@@ -14,8 +14,7 @@ public class Contestant implements MessageOutput,Tickable
    private ArrayList<CaveMessage> msgQueue;
 
    private Monies money;
-   private ObjectInterface msgInterface;
-    
+      
    private MessageOutput msgOutput;
    
    private int ID;
@@ -26,10 +25,10 @@ public class Contestant implements MessageOutput,Tickable
    {
       this.game = game;
       this.ID = ID;
-      this.msgInterface = msgInterface;
-            
+               
       money = new Monies();
       game.addTimeDependent(money);
+      game.addTimeDependent(this);      
 		
       dugSquares = new ArrayList<Position>();
 
@@ -135,12 +134,7 @@ public class Contestant implements MessageOutput,Tickable
    }
    public  void preformTick()
    {
-   
-      
-      for (Position P :knownSquares)
-      {
-	 
-      }
+      msgQueue.add(new UnitMessage(MessageType.SETCASH,money.get()));	      
    }
    
    public void dig(GameAction action, boolean indestructable)

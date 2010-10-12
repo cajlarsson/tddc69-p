@@ -76,6 +76,7 @@ public class CaveWindow extends JFrame
 					      client1);
 			engine.addContestant( new Position(width -10, height/2),
 					      client2);		
+			engine.start();
 		    }
                 });
         }

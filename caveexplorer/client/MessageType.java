@@ -14,5 +14,6 @@ public enum MessageType
       MOVE_A, //KS be om att flytta enhet
       CREATE_UNIT_A, //KS ber om att skapa en enhet
       ABORT, //KS vill avbryta sin order
+      SETCASH, //KS uppdatera cash
       NOMSG //NA Fanns inget mer i kön..
 }

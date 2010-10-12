@@ -142,6 +142,7 @@ public class GameEngine  implements ActionListener
     {
 	Contestant contestant = new Contestant( this, nextID++);
 	contestant.buildBase(basePosition);
+	contestant.setMessageOutput(msgOutput);
 	msgOutput.setMessageOutput(contestant);
 	contestantArray.add(contestant);
     }
