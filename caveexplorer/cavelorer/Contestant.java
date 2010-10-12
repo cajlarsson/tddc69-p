@@ -246,6 +246,7 @@ public class Contestant implements MessageOutput,Tickable
 	 case CREATE_UNIT_A:
 	    spawn(new GameAction(((CreateUnitMessage)msg).getPosition(),
 				 ActionClasses.SPAWN,
+
 				 new Soldier(this, ID,game.getNewUnitID())));	   
 	    break;
 	 default:
