@@ -40,14 +40,22 @@ public class GamePanel extends JComponent implements MessageOutput,
 	 switch(pressedKey)
 	 {
 	    case 'w' :
-		break;
+	       selectUnit(ev);
+	       PosUnitOrder digOrder = new PosUnitOrder(selectedPos,
+							 selectedUnit,
+							 OrderClasses.DIGTO);
+	       msgQueue.add(new OrderMessage(digOrder));
+	       break;
 	    case 'a' :
-	       
-	       
+	       selectUnit(ev);
+	       PosUnitOrder moveOrder = new PosUnitOrder(selectedPos,
+							 selectedUnit,
+							 OrderClasses.MOVETO);
+	       msgQueue.add(new OrderMessage(moveOrder));
 	       
 	       break;
 	    case 'd' : 	 
-	      
+	       setSelectedPosition(ev);
 	       msgQueue.add(new MoveUnitMessage(MessageType.MOVE_A,
 						selectedUnit,
 						selectedPos,
@@ -59,7 +67,8 @@ public class GamePanel extends JComponent implements MessageOutput,
 	       break;   
 		
 	    case 'l' : //create new unit: buggtesttool, FIXME! REMOVE THIS CODE
-	       selectedPos = new Position(ev.getX() / 10, ev.getY() / 10);
+
+	       setSelectedPosition(ev);
 	       msgQueue.add(
 		  new CreateUnitMessage( MessageType.CREATE_UNIT_A,
 					 0,
@@ -67,7 +76,8 @@ public class GamePanel extends JComponent implements MessageOutput,
 					 Units.MY_SOLDIER));
 	       break;
 	    default:
-	       
+	       setSelectedPosition(ev);
+	       selectUnit(ev);
 	       break;
 	 }
       }
@@ -77,7 +87,7 @@ public class GamePanel extends JComponent implements MessageOutput,
    {
       selectedPos = new Position(ev.getX() / 10, ev.getY() / 10);
    }    
-    
+   
    public GamePanel(int width, int height)
 
    {
@@ -273,9 +283,8 @@ public class GamePanel extends JComponent implements MessageOutput,
       this.msgOutput = msgOutput;
    }
    
-   private void selectUnit( int x, int y)
+   private void selectUnit( MouseEvent ev)
    {
-      selectedPos = new Position(x,y);
       selectedUnit = -1;
       for (MovableUnit m : movableUnits)
       {
