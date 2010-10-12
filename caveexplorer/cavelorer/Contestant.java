@@ -203,22 +203,36 @@ public class Contestant implements MessageOutput,Tickable
       }
    }
     
+   private Physical getPhysical(int ID)
+   {
+      for (int i = 0; i < physicals.size(); i++)
+      {
+     if ( ID == physicals.get(i).ID)
+     { 
+        return physicals.get(i);
+     }
+      } 
+   }
+   
    public void processMessages()
    {
-      while(true)
+      CaveMessage msg = getMessage();
+     
+      switch(msg.getType())
       {
-	 CaveMessage msg = getMessage();
-	 if (msg.getType() == MessageType.NOMSG)
-	 {
-	    break;
-	 }else
-	 {
-	    switch(msg.getType())
-	    {
-	       case CREATE_UNIT_A:
-		  //	    game.addPhysical(msg
-		  break;
-	       default: break;
+     case ORDER:
+        //        game.addPhysical(msg
+        break;
+     case CREATE_UNIT:
+        break;
+     case MOVE_A:
+        game.movePhysical(
+	   getPhysical(((PosUnitMessage)msg).getID).getPosition(),
+	   msg.getPosition(),
+	   getPhysical(((PosUnitMessage)msg).getID));
+	//	    game.addPhysical(msg
+	break;
+      default: break;
 	    }
 	 }
       }
