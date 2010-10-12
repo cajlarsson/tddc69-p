@@ -250,12 +250,24 @@ public class Contestant implements MessageOutput,Tickable
 				 new Soldier(this, ID,game.getNewUnitID())));	   
 	    break;
       case ORDER:
-	  Order(
+	 Order(msg.getOrder);
 	 default:
-	    break;
+	  break;
       }
    }
    
+    Public void Order(GameOrder order)
+   {
+      Switch(order.getType())
+      {
+	 case MOVE:
+	    
+	    break;
+
+
+      }
+   }
+
    public void setMessageOutput(MessageOutput msgOutput)
    {
       this.msgOutput = msgOutput;	
