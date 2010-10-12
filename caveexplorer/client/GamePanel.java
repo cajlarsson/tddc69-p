@@ -42,10 +42,12 @@ public class GamePanel extends JComponent implements MessageOutput,
 	    case 'w' :
 		break;
 	    case 'a' :
-		break;
-
+	       
+	       
+	       
+	       break;
 	    case 'd' : 	 
-	       selectedPos = new Position(ev.getX() / 10, ev.getY() / 10);
+	      
 	       msgQueue.add(new MoveUnitMessage(MessageType.MOVE_A,
 						selectedUnit,
 						selectedPos,
@@ -65,13 +67,16 @@ public class GamePanel extends JComponent implements MessageOutput,
 					 Units.MY_SOLDIER));
 	       break;
 	    default:
-	       selectUnit(ev.getX() / 10, ev.getY() / 10);
+	       
 	       break;
 	 }
       }
    }
-    
-    
+   
+   public void setSelectedPosition(MouseEvent ev)
+   {
+      selectedPos = new Position(ev.getX() / 10, ev.getY() / 10);
+   }    
     
    public GamePanel(int width, int height)
 
