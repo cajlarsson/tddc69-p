@@ -59,6 +59,13 @@ public class Contestant implements MessageOutput,Tickable
       applyAction( new GameAction(new Position(position.x + 1, position.y + 1),
 				  ActionClasses.SPAWN, Direction.NONE,base));
       physicals.add(base);
+
+      Soldier soldier = new Soldier(this,ID, game.getNewUnitID());
+
+      applyAction( new GameAction(new Position(position.x , position.y + 2),
+				  ActionClasses.SPAWN, Direction.NONE,soldier));
+      physicals.add(soldier);
+      
       game.addTimeDependent(base);
    }
 	
@@ -180,7 +187,7 @@ public class Contestant implements MessageOutput,Tickable
 			   action.physical());
 	 msgQueue.add(new CreateUnitMessage(
 			 MessageType.CREATE_UNIT,
-			 action.physical().ID(),
+			 action.physical().getID(),
 			 action.position(),
 			 action.physical().getType()));
       }
@@ -221,18 +228,18 @@ public class Contestant implements MessageOutput,Tickable
    {
       for (int i = 0; i < physicals.size(); i++)
       {
-	 if ( ID == physicals.get(i).ID())
+	 if ( ID == physicals.get(i).getID())
 	 { 
 	    return physicals.get(i);
 	 }
-      }
-      return null; //sexy sexy fail
+      } 
+      return null;
    }
    
    public void processMessages()
    {
       CaveMessage msg = getMessage();
-      
+  
       switch(msg.getType())
       {
 	 
@@ -249,12 +256,7 @@ public class Contestant implements MessageOutput,Tickable
 	 default: break;
       }
    }
-      
    
-      
-   
-   
-
    public void setMessageOutput(MessageOutput msgOutput)
    {
       this.msgOutput = msgOutput;	

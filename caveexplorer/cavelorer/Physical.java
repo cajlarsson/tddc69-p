@@ -84,7 +84,7 @@ public abstract class Physical implements Tickable
 	return owner;
     }
     
-    public int ID()
+    public int getID()
     {
 	return ID;
     }

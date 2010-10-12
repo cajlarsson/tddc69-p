@@ -18,7 +18,7 @@ public class GamePanel extends JComponent implements MessageOutput,
    
    private int selectedUnit;
    
-   private Paintee selectedPaintee;
+   private Position selectedPos;
    
    private MessageOutput msgOutput;
    
@@ -71,7 +71,7 @@ public class GamePanel extends JComponent implements MessageOutput,
       msgQueue = new ArrayList<CaveMessage>();
 
       layers = new ArrayList<MapLayer>();
-	
+      selectedPos = new Position(0,0);
       movableUnits = new ArrayList<MovableUnit>();
       layers.add(generateBottomLayer(width,height)); //DIRT
       layers.add(new MapLayer()); //DIG
@@ -108,10 +108,12 @@ public class GamePanel extends JComponent implements MessageOutput,
       {
 	 l.paintLayer(g, this);
       }
-      
+      String Data = "MONIES: "+ String.valueOf(cash);
+      Data += " :: Selected position: "+ selectedPos.stringOf();
+      Data += " :: Selected Unit ID: " +String.valueOf(selectedUnit);
       g.setFont(new Font("Terminus",0,10));
       g.setColor(Color.BLACK);
-      g.drawString("MONIES: "+ String.valueOf(cash),10,10);
+      g.drawString(Data,10,10);
       
    }
    
@@ -214,7 +216,8 @@ public class GamePanel extends JComponent implements MessageOutput,
    
    public void pushMessage(CaveMessage msg)
    {
-      System.out.print("new message: ");
+      System.out.print("new message: "+
+		       String.valueOf(msg.getType().ordinal()));
       
 	
       switch (msg.getType())
@@ -253,10 +256,16 @@ public class GamePanel extends JComponent implements MessageOutput,
       this.msgOutput = msgOutput;
    }
    
-      private void selectUnit( int x, int y)
+   private void selectUnit( int x, int y)
    {
-      Position clickedPos = new Position(x,y);
-      //   for (MovableUnit M : 
+      selectedPos = new Position(x,y);
+      selectedUnit = -1;
+      for (MovableUnit m : movableUnits)
+      {
+	 if (selectedPos.equal(m.getPosition()))
+	 {
+	    selectedUnit = m.getID();
+	 }
+      }
    }
-
 }
