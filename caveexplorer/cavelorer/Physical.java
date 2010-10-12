@@ -35,7 +35,7 @@ public abstract class Physical implements Tickable
     protected void healthTick()
     {
 	ticks++;
-		
+   
 	if (ticks > tickToHeal)
 	    {
 		ticks = 0;

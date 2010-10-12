@@ -17,3 +17,4 @@ public enum MessageType
       SETCASH, //KS uppdatera cash
       NOMSG //NA Fanns inget mer i kön..
 }
+ 

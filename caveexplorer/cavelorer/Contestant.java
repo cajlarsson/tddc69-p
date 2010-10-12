@@ -59,7 +59,7 @@ public class Contestant implements MessageOutput,Tickable
       applyAction( new GameAction(new Position(position.x + 1, position.y + 1),
 				  ActionClasses.SPAWN, Direction.NONE,base));
       physicals.add(base);
-
+      
       Soldier soldier = new Soldier(this,ID, game.getNewUnitID());
 
       applyAction( new GameAction(new Position(position.x , position.y + 2),
@@ -127,13 +127,14 @@ public class Contestant implements MessageOutput,Tickable
 	    break;
 	 case COLLAPSE:
 	    break;
-			
       }
    }
+
    public  void preformTick()
    {
       msgQueue.add(new UnitMessage(MessageType.SETCASH,money.get()));	      
    }
+
    public void move(GameAction action)
    {
       if (game.isDug(action.position())
@@ -151,10 +152,7 @@ public class Contestant implements MessageOutput,Tickable
 					   Units.HOLE));
 					   
       }
-      
-	 
    }
-
    
    public void dig(GameAction action, boolean indestructable)
    {
@@ -237,11 +235,10 @@ public class Contestant implements MessageOutput,Tickable
    public void processMessages()
    {
       CaveMessage msg = getMessage();
-  
+      
       switch(msg.getType())
       {
-	 
-      case MOVE_A:
+	 case MOVE_A:
 	    move(new GameAction(((MoveUnitMessage)msg).getPosition(),
 				ActionClasses.MOVE, 
 				getPhysical(((MoveUnitMessage)msg).getID())));
@@ -249,11 +246,10 @@ public class Contestant implements MessageOutput,Tickable
 	 case CREATE_UNIT_A:
 	    spawn(new GameAction(((CreateUnitMessage)msg).getPosition(),
 				 ActionClasses.SPAWN,
-				 new Soldier(this, ID,
-					      ((CreateUnitMessage)msg)
-					      .getID())));
-	 break;
-	 default: break;
+				 new Soldier(this, ID,game.getNewUnitID())));	   
+	    break;
+	 default:
+	    break;
       }
    }
    

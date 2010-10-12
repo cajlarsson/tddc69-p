@@ -2,13 +2,15 @@ package caveexplorer.cavelorer;
 
 public class GameOrder
 {
-	private OrderClasses orderClass;
-	private Position destination;
-	
-	public OrderClasses getType()
-	{
-		return orderClass;
-	}
-	
-	
-}
+    private OrderClasses orderClass;
+    
+    public GameOrder( OrderClasses orderClass)
+    {
+	this.orderClass = orderClass;
+    }
+    
+    public OrderClasses getType()
+    {
+	return orderClass;
+    }
+} 

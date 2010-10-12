@@ -9,7 +9,8 @@ import java.awt.color.*;
 import java.io.*;
 
 public class GamePanel extends JComponent implements MessageOutput,
-					  ActionListener
+						     ActionListener,
+						     KeyListener
 {
    private ArrayList<MapLayer> layers;
    private ArrayList<MovableUnit> movableUnits;
@@ -39,7 +40,9 @@ public class GamePanel extends JComponent implements MessageOutput,
 	 switch(pressedKey)
 	 {
 	    case 'w' :
+		break;
 	    case 'a' :
+		break;
 
 	    case 'd' : 	 
 	       selectedPos = new Position(ev.getX() / 10, ev.getY() / 10);
@@ -47,14 +50,14 @@ public class GamePanel extends JComponent implements MessageOutput,
 						selectedUnit,
 						selectedPos,
 						Units.MY_SOLDIER));
-	    break;
+	       break;
 	    case 's' :
 	       msgQueue.add(	  
 		  new UnitMessage(MessageType.ABORT,selectedUnit));		     
 	       break;   
 		
 	    case 'l' : //create new unit: buggtesttool, FIXME! REMOVE THIS CODE
-	       selectedPos = new Position(ev.getX(), ev.getY());
+	       selectedPos = new Position(ev.getX() / 10, ev.getY() / 10);
 	       msgQueue.add(
 		  new CreateUnitMessage( MessageType.CREATE_UNIT_A,
 					 0,
@@ -67,6 +70,7 @@ public class GamePanel extends JComponent implements MessageOutput,
 	 }
       }
    }
+    
     
     
    public GamePanel(int width, int height)
@@ -84,13 +88,14 @@ public class GamePanel extends JComponent implements MessageOutput,
       layers.add(new MapLayer());//PROJECTILES		
 	
       addMouseListener(new ClickListener());
-      
+      addKeyListener(this);
       tickTimer = new Timer(100, this); 
       tickTimer.start();
    }
     
    public void actionPerformed(ActionEvent e)
    {
+
       while(true)
       {
 	 CaveMessage temp = getMessage();
@@ -195,10 +200,18 @@ public class GamePanel extends JComponent implements MessageOutput,
       }
       System.out.print(pressedKey);
    }
+
    public void keyReleased(KeyEvent e)
    {
       //	removeUnit(++D);
       pressedKey = 'x';
+      System.out.print(pressedKey);
+   }
+
+   public void keyTyped(KeyEvent e)
+   {
+      pressedKey = 'x';
+      System.out.print(pressedKey);
    }
 
    private CaveMessage getMessage()
@@ -249,8 +262,6 @@ public class GamePanel extends JComponent implements MessageOutput,
 	    break;
       }
    }
-   
-
    
    public void setMessageOutput(MessageOutput msgOutput)
    {

@@ -19,4 +19,4 @@ public class MapLayer extends ArrayList<Paintee>
 			//	System.out.print("lolritade\n");
 		}
 	}
-}
+} 

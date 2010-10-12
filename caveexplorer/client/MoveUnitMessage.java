@@ -24,5 +24,4 @@ public class MoveUnitMessage extends UnitMessage
 	{
 	    return unitType;
 	}
-
 }

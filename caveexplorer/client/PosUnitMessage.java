@@ -18,4 +18,4 @@ public class PosUnitMessage extends UnitMessage
    {
       return position;
    }
-}
+} 

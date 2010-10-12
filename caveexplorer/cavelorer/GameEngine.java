@@ -105,7 +105,7 @@ public class GameEngine  implements ActionListener
     {
 	return map[position.x][position.y].isDug();
     }
-	
+	 
     public void removePhysical(Position position, Physical physical)
     {
 	map[position.x][position.y].removePhysical(physical);
