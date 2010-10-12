@@ -59,12 +59,12 @@ public class Dirt implements Tickable
    {
       physicals.add(physical);
    }
-    	
+
    public int getPhysicalsSize()
    {
       return physicals.size();
    }
-
+    
    public Physical getPhysical(int physical)
    {
       return physicals.get(physical);

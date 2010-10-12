@@ -249,6 +249,8 @@ public class Contestant implements MessageOutput,Tickable
 
 				 new Soldier(this, ID,game.getNewUnitID())));	   
 	    break;
+      case ORDER:
+	  Order(
 	 default:
 	    break;
       }

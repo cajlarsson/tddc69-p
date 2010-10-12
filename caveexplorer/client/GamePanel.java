@@ -47,6 +47,7 @@ public class GamePanel extends JComponent implements MessageOutput,
 	       msgQueue.add(new OrderMessage(digOrder));
 	       break;
 	    case 'a' :
+
 	       selectUnit(ev);
 	       PosUnitOrder moveOrder = new PosUnitOrder(selectedPos,
 							 selectedUnit,
@@ -56,6 +57,7 @@ public class GamePanel extends JComponent implements MessageOutput,
 	       break;
 	    case 'd' : 	 
 	       setSelectedPosition(ev);
+
 	       msgQueue.add(new MoveUnitMessage(MessageType.MOVE_A,
 						selectedUnit,
 						selectedPos,
@@ -76,6 +78,7 @@ public class GamePanel extends JComponent implements MessageOutput,
 					 Units.MY_SOLDIER));
 	       break;
 	    default:
+
 	       setSelectedPosition(ev);
 	       selectUnit(ev);
 	       break;
@@ -87,7 +90,7 @@ public class GamePanel extends JComponent implements MessageOutput,
    {
       selectedPos = new Position(ev.getX() / 10, ev.getY() / 10);
    }    
-   
+
    public GamePanel(int width, int height)
 
    {
