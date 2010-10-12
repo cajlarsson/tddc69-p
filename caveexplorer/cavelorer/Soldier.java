@@ -156,4 +156,9 @@ public class Soldier extends Physical
     {
 	return Units.MY_SOLDIER;
     }
+    
+    public void pushOrder(GameOrder order)
+    {
+	orders.add(0,order);
+    }
 }
