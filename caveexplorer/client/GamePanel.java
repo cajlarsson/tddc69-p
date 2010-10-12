@@ -253,10 +253,10 @@ public class GamePanel extends JComponent implements MessageOutput,
       this.msgOutput = msgOutput;
    }
    
-   private void selectUnit( int x, int y)
+      private void selectUnit( int x, int y)
    {
       Position clickedPos = new Position(x,y);
-      for (MovableUnit M : 
+      //   for (MovableUnit M : 
    }
 
 }

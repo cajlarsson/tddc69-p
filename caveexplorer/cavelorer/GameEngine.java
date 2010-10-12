@@ -116,12 +116,32 @@ public class GameEngine  implements ActionListener
 	map[position.x][position.y].addPhysical(physical);
     }
     
-    public void movePhysical(Position current, Position destination, Physical physical)
+    public void movePhysical(Position current, 
+			     Position destination, 
+			     Physical physical)
     {
 	removePhysical(current, physical);
 	addPhysical(destination, physical);
     }
-	
+   
+   public Position findPhysical(Physical physical)
+   {
+      for (int x = 0; x < mapWidth; x++)
+      {
+	 for (int y = 0; y < mapHeight; y++)
+	 {
+	    for (int z = 0; z < map[x][y].getPhysicalsSize(); z++)
+	    {
+	       if( physical == map[x][y].getPhysical(z))
+	       {
+		  return new Position(x,y);
+	       }
+	    }
+	 }
+      }
+      return null; //sexy sexy fail
+   }
+   
     public Position mapSize()
     {
 	return new Position(mapWidth,mapHeight);

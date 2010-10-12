@@ -136,6 +136,20 @@ public class Contestant implements MessageOutput,Tickable
    {
       msgQueue.add(new UnitMessage(MessageType.SETCASH,money.get()));	      
    }
+   public void move(GameAction action)
+   {
+      if (game.isDug(action.position())
+	  && !game.gotBig(action.position()))
+      {
+	 game.removePhysical(
+	    game.findPhysical(action.physical()),
+	    action.physical());
+	 game.addPhysical(
+	    action.position(),
+	    action.physical());
+      }
+   }
+
    
    public void dig(GameAction action, boolean indestructable)
    {
@@ -156,7 +170,7 @@ public class Contestant implements MessageOutput,Tickable
 		       position,
 		       Units.HOLE));		       
    }
-
+   
    public void spawn(GameAction action)
    {
       if (game.isDug(action.position()))
@@ -171,25 +185,25 @@ public class Contestant implements MessageOutput,Tickable
 			 action.physical().getType()));
       }
    }
-  
-	
+   
+   
    public ArrayList<Position> getEnemies()
    {
       return seenEnemies;
    }
-
+   
    public boolean gotStraightLine(Position pos1, Position pos2)
    {
       //FIXME kolla att spelaren ser alla rutor mellan också
       return	(pos1.x == pos2.x
 		 || pos1.y == pos2.y);
    }
-    
+   
    private CaveMessage getMessage()
    {
       return msgOutput.popMessageQueue();
    }
-	
+   
    public CaveMessage popMessageQueue()
    {
       if (msgQueue.isEmpty())
@@ -202,41 +216,41 @@ public class Contestant implements MessageOutput,Tickable
 	 return temp;
       }
    }
-    
+   
    private Physical getPhysical(int ID)
    {
       for (int i = 0; i < physicals.size(); i++)
       {
-     if ( ID == physicals.get(i).ID)
-     { 
-        return physicals.get(i);
-     }
-      } 
+	 if ( ID == physicals.get(i).ID())
+	 { 
+	    return physicals.get(i);
+	 }
+      }
+      return null; //sexy sexy fail
    }
    
    public void processMessages()
    {
       CaveMessage msg = getMessage();
-     
+      
       switch(msg.getType())
       {
-     case ORDER:
-        //        game.addPhysical(msg
-        break;
-     case CREATE_UNIT:
-        break;
-     case MOVE_A:
-        game.movePhysical(
-	   getPhysical(((PosUnitMessage)msg).getID).getPosition(),
-	   msg.getPosition(),
-	   getPhysical(((PosUnitMessage)msg).getID));
-	//	    game.addPhysical(msg
-	break;
-      default: break;
-	    }
-	 }
+	 
+	 case MOVE_A:
+	    move(new GameAction(((MoveUnitMessage)msg).getPosition(),
+				ActionClasses.MOVE, 
+				getPhysical(((MoveUnitMessage)msg).getID())));
+	    //    game.movePhysical(
+//	   getPhysical(((PosUnitMessage)msg).getID).getPosition(),
+//	   msg.getPosition(),
+//	   getPhysical(((PosUnitMessage)msg).getID));
+	    //	    game.addPhysical(msg
+	    break;
+	 default: break;
       }
    }
+      
+   
       
    
    

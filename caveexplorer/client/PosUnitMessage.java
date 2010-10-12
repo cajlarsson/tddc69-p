@@ -18,9 +18,4 @@ public class PosUnitMessage extends UnitMessage
    {
       return position;
    }
-   
-   public int getID()
-   {
-      return ID;
-   }
 }
